@@ -9,23 +9,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- الحروف العشوائية المتحركة -->
     <!-- صفحة تسجيل الدخول -->
     <div id="loginPage" class="center page" style="display: flex; position: relative;">
         <div class="card">
-            <h2>تسجيل الدخول</h2>
-            <input id="username" type="text" placeholder="اسم المستخدم" />
-            <input id="password" type="password" placeholder="كلمة السر" />
-            <button onclick="login()">دخول</button>
+            <h2>مرحباً بك</h2>
+            <div class="choice-container">
+                <button class="choice-btn" onclick="showForm('login')">تسجيل الدخول</button>
+                <button class="choice-btn" onclick="showForm('signup')">تسجيل عبر كود</button>
+            </div>
+            <div id="loginForm" class="form-container">
+                <input id="username" type="text" placeholder="اسم المستخدم" />
+                <input id="password" type="password" placeholder="كلمة السر" />
+                <button onclick="login()">دخول</button>
+            </div>
+            <div id="signupForm" class="form-container">
+                <input id="email" type="text" placeholder="الإيميل أو رقم الهاتف" />
+                <input id="code" type="text" placeholder="الكود" />
+                <button onclick="signup()">تسجيل</button>
+            </div>
         </div>
         <!-- اللوجو والأيقونات في الأسفل -->
         <div class="footer-info">
             <img src="https://i.imgur.com/8Km9tLL.png" alt="مستر أحمد" />
-            <div class="icons">
-                <a href="https://wa.me/01000000000" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                <a href="mailto:support@platform.com" target="_blank"><i class="fas fa-headset"></i></a>
-            </div>
             <div>مستر أحمد</div>
+        </div>
+        <!-- أيقونات الواتساب والدعم في أسفل يسار -->
+        <div class="icons-bottom-left">
+            <a href="https://wa.me/01000000000" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:support@platform.com" target="_blank"><i class="fas fa-headset"></i></a>
         </div>
     </div>
     <!-- صفحة الطالب -->
