@@ -8,14 +8,17 @@ body {
 }
 .letter {
     position: absolute;
-    font-size: 20px;
-    color: #c0c0c0;
+    font-size: 24px;
+    color: rgba(192, 192, 192, 0.7);
     user-select: none;
-    animation: float 10s linear infinite;
+    animation: float 15s ease-in-out infinite;
+    opacity: 0.8;
 }
 @keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); }
-    100% { transform: translateY(-100px) rotate(360deg); }
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
 }
 .center {
     display: flex;
@@ -27,10 +30,46 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
     padding: 30px;
-    border-radius: 14px;
+    border-radius: 30px; /* بيضاوي أكثر */
     width: 360px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     position: relative;
+}
+.choice-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+.choice-btn {
+    padding: 10px 20px;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+.choice-btn:hover {
+    background: #c0c0c0;
+}
+.choice-btn.active {
+    background: #1e63ff;
+    color: white;
+}
+.form-container {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 30px; /* بيضاوي تاني */
+    margin-top: 20px;
+}
+.form-container.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
 }
 input, select {
     width: 100%;
@@ -81,21 +120,25 @@ h2, h3 {
     border-radius: 50%;
     margin-bottom: 10px;
 }
-.icons {
-    margin: 10px 0;
-}
-.icons a {
-    color: #1e63ff;
-    font-size: 24px;
-    margin: 0 10px;
-    text-decoration: none;
-}
-.icons a:hover {
-    color: #174bb0;
-}
 .footer-info div {
     margin-top: 5px;
     font-size: 16px;
+}
+.icons-bottom-left {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.icons-bottom-left a {
+    color: #1e63ff;
+    font-size: 28px;
+    margin: 10px 0;
+    text-decoration: none;
+}
+.icons-bottom-left a:hover {
+    color: #174bb0;
 }
 .page {
     display: none;
