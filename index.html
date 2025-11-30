@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>منصة تعليمية - تجريبي</title>
 <style>
+ /* خلفية احترافية مع عناصر تعليم */
+ body {
+   background-image: url('https://i.imgur.com/1RkX3tX.png'); /* يمكن تغييره لاحقاً */
+   background-size: cover;
+   background-position: center;
+ }
  body {
    font-family: sans-serif;
    background: #f3f7ff;
@@ -18,6 +24,12 @@
    height: 100vh;
  }
  .card {
+   background: rgba(255,255,255,0.92);
+   backdrop-filter: blur(4px);
+   padding: 25px 30px;
+   border-radius: 14px;
+   width: 340px;
+   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
    background: white;
    padding: 20px 30px;
    border-radius: 12px;
@@ -55,7 +67,14 @@
 <body>
 
 <!-- صفحة تسجيل الدخول -->
-<div id="loginPage" class="center page" style="display:flex;">
+<div id="loginPage" class="center page" style="display:flex; position:relative;">
+
+  <!-- لوجو واسم المستر + واتساب -->
+  <div style="position:absolute; top:20px; right:20px; text-align:right; color:#1e63ff; font-size:14px;">
+    <img src="https://i.imgur.com/2A7QZJB.png" style="width:60px; border-radius:50%;" />
+    <div style="margin-top:5px; font-weight:bold;">مستر أحمد</div>
+    <div style="margin-top:3px;">واتساب المساعدة: 01000000000</div>
+  </div> class="center page" style="display:flex;">
   <div class="card">
     <h2>تسجيل الدخول</h2>
     <label>اسم المستخدم</label>
