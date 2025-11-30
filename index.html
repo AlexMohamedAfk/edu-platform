@@ -1,167 +1,51 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>منصة تعليمية - تجريبي</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-/* الخلفية المتحركة */
-body {
-  font-family: 'Roboto', sans-serif;
-  background: white;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-.letter {
-  position: absolute;
-  font-size: 20px;
-  color: #c0c0c0;
-  user-select: none;
-  animation: float 10s linear infinite;
-}
-@keyframes float {
-  0% {transform: translateY(100vh) rotate(0deg);}
-  100% {transform: translateY(-100px) rotate(360deg);}
-}
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.card {
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(5px);
-  padding: 25px 30px;
-  border-radius: 14px;
-  width: 340px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  position: relative;
-}
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 12px;
-  background: #1e63ff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-button:hover {
-  background: #174bb0;
-}
-h2, h3 { text-align:center; color:#1e63ff; }
-.header {
-  background: #1e63ff;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 20px;
-  border-radius: 10px 10px 0 0;
-}
-.logo-info {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-align: right;
-  color: #1e63ff;
-  font-weight: bold;
-}
-.logo-info img {
-  width: 50px;
-  border-radius: 50%;
-}
-.logo-info div {
-  margin-top: 3px;
-  font-size: 14px;
-}
-.page { display: none; padding: 20px; }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>منصة تعليمية - تجريبي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- الحروف العشوائية المتحركة -->
-<script>
-const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-for(let i=0;i<50;i++){
-  const span = document.createElement('span');
-  span.className='letter';
-  span.style.left = Math.random()*window.innerWidth+'px';
-  span.style.top = Math.random()*window.innerHeight+'px';
-  span.textContent = letters[Math.floor(Math.random()*letters.length)];
-  span.style.fontSize = (10+Math.random()*20)+'px';
-  document.body.appendChild(span);
-}
-</script>
-
-<!-- صفحة تسجيل الدخول -->
-<div id="loginPage" class="center page" style="display:flex; position:relative;">
-  <div class="card">
-    <div class="logo-info">
-      <img src="https://i.imgur.com/8Km9tLL.png" />
-      <div>مستر أحمد</div>
-      <div>واتساب: 01000000000</div>
+    <!-- الحروف العشوائية المتحركة -->
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginPage" class="center page" style="display: flex; position: relative;">
+        <div class="card">
+            <h2>تسجيل الدخول</h2>
+            <input id="username" type="text" placeholder="اسم المستخدم" />
+            <input id="password" type="password" placeholder="كلمة السر" />
+            <button onclick="login()">دخول</button>
+        </div>
+        <!-- اللوجو والأيقونات في الأسفل -->
+        <div class="footer-info">
+            <img src="https://i.imgur.com/8Km9tLL.png" alt="مستر أحمد" />
+            <div class="icons">
+                <a href="https://wa.me/01000000000" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:support@platform.com" target="_blank"><i class="fas fa-headset"></i></a>
+            </div>
+            <div>مستر أحمد</div>
+        </div>
     </div>
-    <h2>تسجيل الدخول</h2>
-    <input id="username" type="text" placeholder="اسم المستخدم" />
-    <input id="password" type="password" placeholder="كلمة السر" />
-    <button onclick="login()">دخول</button>
-  </div>
-</div>
-
-<!-- صفحة الطالب -->
-<div id="studentPage" class="page">
-  <div class="header">واجهة الطالب</div>
-  <h3>مرحباً أيها الطالب</h3>
-  <p>هنا سترى: الواجبات – الامتحانات – فيديوهات الحصة.</p>
-</div>
-
-<!-- صفحة المدرّس -->
-<div id="teacherPage" class="page">
-  <div class="header">واجهة المدرّس</div>
-  <h3>مرحباً أيها المدرّس</h3>
-  <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
-</div>
-
-<!-- صفحة الأدمن -->
-<div id="adminPage" class="page">
-  <div class="header">واجهة الأدمن</div>
-  <h3>مرحباً أيها الإداري</h3>
-  <p>لوحة التحكم الكاملة.</p>
-</div>
-
-<script>
-function hideAll() {
-  document.querySelectorAll('.page').forEach(p => p.style.display='none');
-}
-function login(){
-  const u = document.getElementById('username').value.trim();
-  const p = document.getElementById('password').value.trim();
-  if(u==='student'&&p==='1234'){
-    hideAll();
-    document.getElementById('studentPage').style.display='block';
-  } else if(u==='teacher'&&p==='1234'){
-    hideAll();
-    document.getElementById('teacherPage').style.display='block';
-  } else if(u==='admin'&&p==='1234'){
-    hideAll();
-    document.getElementById('adminPage').style.display='block';
-  } else{
-    alert('بيانات غير صحيحة');
-  }
-}
-</script>
-
+    <!-- صفحة الطالب -->
+    <div id="studentPage" class="page">
+        <div class="header">واجهة الطالب</div>
+        <h3>مرحباً أيها الطالب</h3>
+        <p>هنا سترى: الواجبات – الامتحانات – فيديوهات الحصة.</p>
+    </div>
+    <!-- صفحة المدرّس -->
+    <div id="teacherPage" class="page">
+        <div class="header">واجهة المدرّس</div>
+        <h3>مرحباً أيها المدرّس</h3>
+        <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
+    </div>
+    <!-- صفحة الأدمن -->
+    <div id="adminPage" class="page">
+        <div class="header">واجهة الأدمن</div>
+        <h3>مرحباً أيها الإداري</h3>
+        <p>لوحة التحكم الكاملة.</p>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
