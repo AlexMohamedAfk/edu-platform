@@ -1,22 +1,117 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الدخول | منصة تعليمية</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>منصة تعليمية - تجريبي</title>
+<style>
+ body {
+   font-family: sans-serif;
+   background: #f3f7ff;
+   margin: 0;
+   padding: 0;
+ }
+ .center {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+ }
+ .card {
+   background: white;
+   padding: 20px 30px;
+   border-radius: 12px;
+   width: 320px;
+   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+ }
+ input, select {
+   width: 100%;
+   padding: 10px;
+   margin-top: 8px;
+   border-radius: 8px;
+   border: 1px solid #ccc;
+ }
+ button {
+   width: 100%;
+   padding: 10px;
+   margin-top: 12px;
+   background: #1e63ff;
+   color: white;
+   border: none;
+   border-radius: 8px;
+   font-size: 16px;
+ }
+ h2, h3 { text-align:center; color:#1e63ff; }
+ .page { display: none; padding: 20px; }
+ .header {
+   background: #1e63ff;
+   color: white;
+   padding: 15px;
+   text-align: center;
+   font-size: 20px;
+ }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>المنصة التعليمية</h1>
-    <div class="login-box">
-      <h2>تسجيل الدخول</h2>
-      <input type="text" id="username" placeholder="اسم المستخدم">
-      <input type="password" id="password" placeholder="كلمة السر">
-      <button onclick="login()">دخول</button>
-      <p id="message"></p>
-    </div>
+
+<!-- صفحة تسجيل الدخول -->
+<div id="loginPage" class="center page" style="display:flex;">
+  <div class="card">
+    <h2>تسجيل الدخول</h2>
+    <label>اسم المستخدم</label>
+    <input id="username" type="text" />
+
+    <label>كلمة المرور</label>
+    <input id="password" type="password" />
+
+    <button onclick="login()">دخول</button>
   </div>
-  <script src="script.js"></script>
+</div>
+
+<!-- صفحة الطالب -->
+<div id="studentPage" class="page">
+  <div class="header">واجهة الطالب</div>
+  <h3>مرحباً أيها الطالب</h3>
+  <p>هنا سترى: الواجبات – الامتحانات – فيديوهات الحصة.</p>
+</div>
+
+<!-- صفحة المدرّس -->
+<div id="teacherPage" class="page">
+  <div class="header">واجهة المدرّس</div>
+  <h3>مرحباً أيها المدرّس</h3>
+  <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
+</div>
+
+<!-- صفحة الأدمن -->
+<div id="adminPage" class="page">
+  <div class="header">واجهة الأدمن</div>
+  <h3>مرحباً أيها الإداري</h3>
+  <p>لوحة التحكم الكاملة.</p>
+</div>
+
+<script>
+function hideAll() {
+  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+}
+
+function login() {
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value.trim();
+
+  if (u === 'student' && p === '1234') {
+    hideAll();
+    document.getElementById('studentPage').style.display = 'block';
+  } else if (u === 'teacher' && p === '1234') {
+    hideAll();
+    document.getElementById('teacherPage').style.display = 'block';
+  } else if (u === 'admin' && p === '1234') {
+    hideAll();
+    document.getElementById('adminPage').style.display = 'block';
+  } else {
+    alert('بيانات غير صحيحة');
+  }
+}
+</script>
+
 </body>
 </html>
