@@ -1,67 +1,63 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>منصة تعليمية - تجريبي</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة تعليمية</title>
+
 <style>
- /* خلفية احترافية مع عناصر تعليم */
- body {
-   background-image: url('https://i.imgur.com/1RkX3tX.png'); /* يمكن تغييره لاحقاً */
-   background-size: cover;
-   background-position: center;
- }
- body {
-   font-family: sans-serif;
-   background: #f3f7ff;
-   margin: 0;
-   padding: 0;
- }
- .center {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
- }
- .card {
-   background: rgba(255,255,255,0.92);
-   backdrop-filter: blur(4px);
-   padding: 25px 30px;
-   border-radius: 14px;
-   width: 340px;
-   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-   background: white;
-   padding: 20px 30px;
-   border-radius: 12px;
-   width: 320px;
-   box-shadow: 0 0 10px rgba(0,0,0,0.1);
- }
- input, select {
-   width: 100%;
-   padding: 10px;
-   margin-top: 8px;
-   border-radius: 8px;
-   border: 1px solid #ccc;
- }
- button {
-   width: 100%;
-   padding: 10px;
-   margin-top: 12px;
-   background: #1e63ff;
-   color: white;
-   border: none;
-   border-radius: 8px;
-   font-size: 16px;
- }
- h2, h3 { text-align:center; color:#1e63ff; }
- .page { display: none; padding: 20px; }
- .header {
-   background: #1e63ff;
-   color: white;
-   padding: 15px;
-   text-align: center;
-   font-size: 20px;
- }
+body {
+  font-family: "Tajawal", sans-serif;
+  margin: 0;
+  background-image: url("https://i.imgur.com/hTdpH5p.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(5px);
+  padding: 30px;
+  border-radius: 14px;
+  width: 340px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #1e63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 16px;
+}
+
+.header {
+  background: #1e63ff;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.page { display: none; padding: 20px; }
 </style>
 </head>
 <body>
@@ -69,65 +65,89 @@
 <!-- صفحة تسجيل الدخول -->
 <div id="loginPage" class="center page" style="display:flex; position:relative;">
 
-  <!-- لوجو واسم المستر + واتساب -->
-  <div style="position:absolute; top:20px; right:20px; text-align:right; color:#1e63ff; font-size:14px;">
-    <img src="https://i.imgur.com/2A7QZJB.png" style="width:60px; border-radius:50%;" />
-    <div style="margin-top:5px; font-weight:bold;">مستر أحمد</div>
-    <div style="margin-top:3px;">واتساب المساعدة: 01000000000</div>
-  </div> class="center page" style="display:flex; position:relative;">
+  <!-- لوجو + اسم المستر + واتساب -->
+  <div style="
+      position:absolute; 
+      top:25px; 
+      right:25px; 
+      display:flex; 
+      align-items:center; 
+      gap:10px;
+      background: rgba(255,255,255,0.85);
+      padding:10px 14px;
+      border-radius:12px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  ">
+      <img src="https://i.imgur.com/YqUgrJM.png"
+           style="width:55px; height:55px; border-radius:50%; object-fit:cover;">
+      <div style="display:flex; flex-direction:column;">
+          <span style="font-size:16px; font-weight:700; color:#1e63ff;">
+              مستر أحمد
+          </span>
+          <span style="font-size:13px; color:#333;">
+              واتساب: 01000000000
+          </span>
+      </div>
+  </div>
+
   <div class="card">
-    <h2>تسجيل الدخول</h2>
+    <h2 style="text-align:center; color:#1e63ff;">تسجيل الدخول</h2>
+
     <label>اسم المستخدم</label>
-    <input id="username" type="text" />
+    <input id="username" type="text">
 
     <label>كلمة المرور</label>
-    <input id="password" type="password" />
+    <input id="password" type="password">
 
     <button onclick="login()">دخول</button>
   </div>
+
 </div>
 
-<!-- صفحة الطالب -->
+<!-- واجهة الطالب -->
 <div id="studentPage" class="page">
   <div class="header">واجهة الطالب</div>
-  <h3>مرحباً أيها الطالب</h3>
-  <p>هنا سترى: الواجبات – الامتحانات – فيديوهات الحصة.</p>
+  <h3>مرحباً بالطالب</h3>
+  <p>هنا يتم عرض: الواجبات – الامتحانات – فيديوهات الحصة.</p>
 </div>
 
-<!-- صفحة المدرّس -->
+<!-- واجهة المدرس -->
 <div id="teacherPage" class="page">
-  <div class="header">واجهة المدرّس</div>
+  <div class="header">واجهة المدرس</div>
   <h3>مرحباً أيها المدرّس</h3>
-  <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
+  <p>هنا يمكنك رفع الإمتحانات – رفع الفيديوهات – متابعة الطلاب.</p>
 </div>
 
-<!-- صفحة الأدمن -->
+<!-- واجهة الأدمن -->
 <div id="adminPage" class="page">
-  <div class="header">واجهة الأدمن</div>
-  <h3>مرحباً أيها الإداري</h3>
-  <p>لوحة التحكم الكاملة.</p>
+  <div class="header">لوحة الأدمن</div>
+  <h3>مرحباً أيها الأدمن</h3>
+  <p>هنا إدارة كاملة للمنصة.</p>
 </div>
 
 <script>
 function hideAll() {
-  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+  document.querySelectorAll(".page").forEach(p => p.style.display = "none");
 }
 
 function login() {
-  const u = document.getElementById('username').value.trim();
-  const p = document.getElementById('password').value.trim();
+  const u = document.getElementById("username").value.trim();
+  const p = document.getElementById("password").value.trim();
 
-  if (u === 'student' && p === '1234') {
+  if (u === "student" && p === "1234") {
     hideAll();
-    document.getElementById('studentPage').style.display = 'block';
-  } else if (u === 'teacher' && p === '1234') {
+    document.getElementById("studentPage").style.display = "block";
+
+  } else if (u === "teacher" && p === "1234") {
     hideAll();
-    document.getElementById('teacherPage').style.display = 'block';
-  } else if (u === 'admin' && p === '1234') {
+    document.getElementById("teacherPage").style.display = "block";
+
+  } else if (u === "admin" && p === "1234") {
     hideAll();
-    document.getElementById('adminPage').style.display = 'block';
+    document.getElementById("adminPage").style.display = "block";
+
   } else {
-    alert('بيانات غير صحيحة');
+    alert("بيانات تسجيل الدخول غير صحيحة");
   }
 }
 </script>
