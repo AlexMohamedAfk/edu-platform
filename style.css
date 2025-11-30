@@ -25,51 +25,20 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.center.hidden {
+    opacity: 0;
+    transform: translateY(20px);
 }
 .card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
     padding: 30px;
-    border-radius: 30px; /* بيضاوي أكثر */
+    border-radius: 30px; /* بيضاوي */
     width: 360px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     position: relative;
-}
-.choice-container {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-.choice-btn {
-    padding: 10px 20px;
-    background: #e0e0e0;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s;
-}
-.choice-btn:hover {
-    background: #c0c0c0;
-}
-.choice-btn.active {
-    background: #1e63ff;
-    color: white;
-}
-.form-container {
-    display: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 30px; /* بيضاوي تاني */
-    margin-top: 20px;
-}
-.form-container.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
 }
 input, select {
     width: 100%;
@@ -143,4 +112,17 @@ h2, h3 {
 .page {
     display: none;
     padding: 20px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.switch-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+.switch-link a {
+    color: #1e63ff;
+    text-decoration: none;
+}
+.switch-link a:hover {
+    text-decoration: underline;
 }
