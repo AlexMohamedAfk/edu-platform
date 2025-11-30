@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المعلم | المنصة التعليمية</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <h1>مرحباً أستاذ</h1>
+    <p>يمكنك التحكم في الحصص – رفع الفيديوهات – إضافة الواجبات.</p>
+
+    <div class="card">
+      <h2>رفع درس جديد</h2>
+      <input type="text" placeholder="عنوان الدرس">
+      <input type="file">
+      <button>رفع</button>
+    </div>
+
+    <div class="card">
+      <h2>رفع واجب</h2>
+      <input type="file">
+      <button>رفع</button>
+    </div>
+
+    <button class="logout" onclick="logout()">تسجيل الخروج</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
