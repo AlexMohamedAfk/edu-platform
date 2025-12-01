@@ -1,17 +1,3 @@
-// إنشاء الحروف العشوائية المتحركة
-const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-for (let i = 0; i < 70; i++) {
-    const span = document.createElement('span');
-    span.className = 'letter';
-    span.style.left = Math.random() * window.innerWidth + 'px';
-    span.style.top = Math.random() * window.innerHeight + 'px';
-    span.textContent = letters[Math.floor(Math.random() * letters.length)];
-    span.style.fontSize = (15 + Math.random() * 25) + 'px';
-    span.style.animationDelay = Math.random() * 5 + 's';
-    span.style.color = `hsl(${Math.random() * 360}, 50%, 80%)`;
-    document.body.appendChild(span);
-}
-
 // دالة إخفاء جميع الصفحات
 function hideAll() {
     document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -45,32 +31,69 @@ function switchToLogin() {
     }, 500);
 }
 
-// دالة تسجيل الدخول
+// تهيئة localStorage إذا لم تكن موجودة (حسابات افتراضية)
+if (!localStorage.getItem('accounts')) {
+    const defaultAccounts = [
+        { username: 'student', password: '1234', role: 'student' },
+        { username: 'teacher', password: '1234', role: 'teacher' },
+        { username: 'admin', password: '1234', role: 'admin' }
+    ];
+    localStorage.setItem('accounts', JSON.stringify(defaultAccounts));
+}
+if (!localStorage.getItem('codes')) {
+    localStorage.setItem('codes', JSON.stringify([]));
+}
+
+// دالة تسجيل الدخول بالحساب
 function login() {
     const u = document.getElementById('username').value.trim();
     const p = document.getElementById('password').value.trim();
-    if (u === 'student' && p === '1234') {
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const user = accounts.find(acc => acc.username === u && acc.password === p);
+    if (user) {
         hideAll();
-        document.getElementById('studentPage').style.display = 'block';
-    } else if (u === 'teacher' && p === '1234') {
-        hideAll();
-        document.getElementById('teacherPage').style.display = 'block';
-    } else if (u === 'admin' && p === '1234') {
-        hideAll();
-        document.getElementById('adminPage').style.display = 'block';
+        document.getElementById(`${user.role}Page`).style.display = 'block';
     } else {
         alert('بيانات غير صحيحة');
     }
 }
 
-// دالة تسجيل عبر كود (مثال بسيط)
+// دالة تسجيل عبر كود
 function signup() {
     const code = document.getElementById('code').value.trim();
-    if (code === '1234') { // مثال: كود افتراضي
-        alert('تم التسجيل بنجاح!');
-        // هنا يمكن إضافة انتقال لصفحة أخرى
+    const codes = JSON.parse(localStorage.getItem('codes')) || [];
+    if (codes.includes(code)) {
+        hideAll();
+        document.getElementById('studentPage').style.display = 'block'; // افتراضيًا كطالب
     } else {
         alert('كود غير صحيح');
+    }
+}
+
+// دالة إنشاء كود جديد (عشوائي 6 أرقام)
+function generateCode() {
+    const newCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6 أرقام
+    const codes = JSON.parse(localStorage.getItem('codes')) || [];
+    codes.push(newCode);
+    localStorage.setItem('codes', JSON.stringify(codes));
+    document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+}
+
+// دالة إنشاء حساب جديد (من صفحة المعلم أو الإداري)
+function createAccount(page) {
+    const newU = document.getElementById(`newUsername${page.charAt(0).toUpperCase() + page.slice(1)}`).value.trim();
+    const newP = document.getElementById(`newPassword${page.charAt(0).toUpperCase() + page.slice(1)}`).value.trim();
+    if (newU && newP) {
+        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+        if (accounts.find(acc => acc.username === newU)) {
+            alert('اسم المستخدم موجود بالفعل');
+            return;
+        }
+        accounts.push({ username: newU, password: newP, role: 'student' }); // افتراضيًا طالب
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        alert('تم إنشاء الحساب بنجاح!');
+    } else {
+        alert('أدخل البيانات كاملة');
     }
 }
 
