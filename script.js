@@ -90,7 +90,7 @@ function createAccount() {
             alert('اسم المستخدم موجود بالفعل');
             return;
         }
-        accounts.push({ username: newU, password: newP, role: 'student' }); // افتراضيًا طالب
+        accounts.push({ username: newU, password: newP, role: 'student' }); // افتراضيًا طالب، يمكن تغيير بناءً على الصفحة
         localStorage.setItem('accounts', JSON.stringify(accounts));
         alert('تم إنشاء الحساب بنجاح!');
         closeModal();
@@ -102,7 +102,7 @@ function createAccount() {
 // دالة فتح المودال
 function openCreateAccountModal(page) {
     document.getElementById('createAccountModal').style.display = 'block';
-    // يمكن تخصيص بناءً على الصفحة إذا لزم، لكن حاليًا عام
+    // يمكن تخصيص الـ role هنا إذا عايز، مثل hidden field
 }
 
 // دالة إغلاق المودال
