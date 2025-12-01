@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>منصة تعليمية - تجريبي</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -85,6 +86,7 @@
                 <a href="#" class="tab-link active" onclick="openTab(event, 'teacher-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-lessons')">الحصص والواجبات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-settings')">الإعدادات</a>
+                <a href="#" class="tab-link" onclick="openTab(event, 'teacher-manage-accounts')">إدارة الحسابات</a>
             </div>
             <button class="tab-arrow right" onclick="scrollTabs('right', 'teacher')">&gt;</button>
         </div>
@@ -107,6 +109,19 @@
             <h3>الإعدادات</h3>
             <p>إعدادات المدرس (سيتم تنفيذه بعدين).</p>
         </div>
+        <div id="teacher-manage-accounts" class="tab-content">
+            <h3>إدارة الحسابات</h3>
+            <table id="accountsTableTeacher" class="accounts-table">
+                <thead>
+                    <tr>
+                        <th>اسم المستخدم</th>
+                        <th>الدور</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
     <!-- صفحة الأدمن -->
@@ -118,6 +133,7 @@
                 <a href="#" class="tab-link active" onclick="openTab(event, 'admin-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-lessons')">الحصص والواجبات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-settings')">الإعدادات</a>
+                <a href="#" class="tab-link" onclick="openTab(event, 'admin-manage-accounts')">إدارة الحسابات</a>
             </div>
             <button class="tab-arrow right" onclick="scrollTabs('right', 'admin')">&gt;</button>
         </div>
@@ -139,6 +155,19 @@
         <div id="admin-settings" class="tab-content">
             <h3>الإعدادات</h3>
             <p>إعدادات الأدمن (سيتم تنفيذه بعدين).</p>
+        </div>
+        <div id="admin-manage-accounts" class="tab-content">
+            <h3>إدارة الحسابات</h3>
+            <table id="accountsTableAdmin" class="accounts-table">
+                <thead>
+                    <tr>
+                        <th>اسم المستخدم</th>
+                        <th>الدور</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
         <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
@@ -189,6 +218,23 @@
                 <i class="fas fa-eye toggle-password" onclick="togglePassword('confirmPassword')"></i>
             </div>
             <button id="createAccountBtn" onclick="createAccount()">إنشاء</button>
+        </div>
+    </div>
+    <!-- Modal لتعديل حساب -->
+    <div id="editAccountModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>تعديل حساب</h2>
+            <input id="editUsername" type="text" placeholder="اسم المستخدم" />
+            <div class="password-container">
+                <input id="editPassword" type="password" placeholder="كلمة السر الجديدة" />
+                <i class="fas fa-eye toggle-password" onclick="togglePassword('editPassword')"></i>
+            </div>
+            <div class="password-container">
+                <input id="editConfirmPassword" type="password" placeholder="تأكيد كلمة السر" />
+                <i class="fas fa-eye toggle-password" onclick="togglePassword('editConfirmPassword')"></i>
+            </div>
+            <button onclick="saveEditedAccount()">حفظ</button>
         </div>
     </div>
     <!-- نظام الإشعارات (toast) -->
