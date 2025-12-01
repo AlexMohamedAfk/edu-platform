@@ -44,6 +44,18 @@ if (!localStorage.getItem('codes')) {
     localStorage.setItem('codes', JSON.stringify([]));
 }
 
+// دالة عرض إشعار
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.classList.remove('error');
+    if (type === 'error') notification.classList.add('error');
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, 3000);
+}
+
 // دالة تسجيل الدخول بالحساب
 function login() {
     const u = document.getElementById('username').value.trim();
@@ -53,8 +65,9 @@ function login() {
     if (user) {
         hideAll();
         document.getElementById(`${user.role}Page`).style.display = 'block';
+        showNotification('تم تسجيل الدخول بنجاح!');
     } else {
-        alert('بيانات غير صحيحة');
+        showNotification('بيانات غير صحيحة', 'error');
     }
 }
 
@@ -64,29 +77,39 @@ function signup() {
     const codes = JSON.parse(localStorage.getItem('codes')) || [];
     if (codes.includes(code)) {
         hideAll();
-        document.getElementById('studentPage').style.display = 'block'; // افتراضيًا كطالب
+        document.getElementById('studentPage').style.display = 'block';
+        showNotification('تم التسجيل بنجاح عبر الكود!');
     } else {
-        alert('كود غير صحيح');
+        showNotification('كود غير صحيح', 'error');
     }
 }
 
 // دالة إنشاء كود جديد (عشوائي 6 أرقام)
 function generateCode() {
-    const newCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6 أرقام
+    const newCode = Math.floor(100000 + Math.random() * 900000).toString();
     const codes = JSON.parse(localStorage.getItem('codes')) || [];
     codes.push(newCode);
     localStorage.setItem('codes', JSON.stringify(codes));
     // عرض الكود في الصفحة المناسبة
-    if (document.getElementById('teacherGeneratedCode')) {
-        document.getElementById('teacherGeneratedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
-    } else if (document.getElementById('adminGeneratedCode')) {
-        document.getElementById('adminGeneratedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
-    } else {
-        document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+    const generatedCodeElements = {
+        'teacher': 'teacherGeneratedCode',
+        'assistant': 'assistantGeneratedCode',
+        'admin': 'adminGeneratedCode'
+    };
+    for (const role in generatedCodeElements) {
+        const elem = document.getElementById(generatedCodeElements[role]);
+        if (elem) {
+            elem.textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+            showNotification('تم إنشاء كود جديد!');
+            return;
+        }
     }
+    document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+    showNotification('تم إنشاء كود جديد!');
 }
 
-// دالة إنشاء حساب جديد من المودال
+// دالة إنشاء حساب جديد من المودال (مع دعم role)
+let currentRole = 'student';
 function createAccount() {
     const newU = document.getElementById('newUsername').value.trim();
     const newP = document.getElementById('newPassword').value.trim();
@@ -94,26 +117,29 @@ function createAccount() {
     if (newU && newP && newP === confirmP) {
         const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
         if (accounts.find(acc => acc.username === newU)) {
-            alert('اسم المستخدم موجود بالفعل');
+            showNotification('اسم المستخدم موجود بالفعل', 'error');
             return;
         }
-        accounts.push({ username: newU, password: newP, role: 'student' });
+        accounts.push({ username: newU, password: newP, role: currentRole });
         localStorage.setItem('accounts', JSON.stringify(accounts));
-        alert('تم إنشاء الحساب بنجاح!');
+        showNotification('تم إنشاء الحساب بنجاح!');
         closeModal();
     } else {
-        alert('أدخل البيانات كاملة أو تحقق من تطابق كلمة السر');
+        showNotification('أدخل البيانات كاملة أو تحقق من تطابق كلمة السر', 'error');
     }
 }
 
-// دالة فتح المودال
-function openCreateAccountModal(page) {
+// دالة فتح المودال مع تحديد الـ role
+function openCreateAccountModal(page, role) {
+    currentRole = role;
     document.getElementById('createAccountModal').style.display = 'block';
+    document.body.style.overflow = 'hidden'; // منع scroll عند فتح الـ modal
 }
 
 // دالة إغلاق المودال
 function closeModal() {
     document.getElementById('createAccountModal').style.display = 'none';
+    document.body.style.overflow = 'auto'; // إعادة الـ scroll
     document.getElementById('newUsername').value = '';
     document.getElementById('newPassword').value = '';
     document.getElementById('confirmPassword').value = '';
@@ -139,6 +165,7 @@ function logout() {
     hideAll();
     document.getElementById('loginPage').style.display = 'flex';
     document.getElementById('loginPage').classList.remove('hidden');
+    showNotification('تم تسجيل الخروج!');
 }
 
 // دالة فتح التب (التنقل بين الخيارات)
@@ -155,6 +182,13 @@ function openTab(evt, tabName) {
         document.getElementById(tabName).classList.add('active');
     }, 10);
     evt.currentTarget.classList.add('active');
+}
+
+// دالة سكرول الـ tabs بالأسهم
+function scrollTabs(direction, role) {
+    const tabs = document.getElementById(`${role}Tabs`);
+    const scrollAmount = 100; // كمية السكرول
+    tabs.scrollLeft += (direction === 'left' ? -scrollAmount : scrollAmount);
 }
 
 // إزالة hidden في البداية لصفحة الدخول
