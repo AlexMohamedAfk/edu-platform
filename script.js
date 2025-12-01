@@ -191,5 +191,19 @@ function scrollTabs(direction, role) {
     tabs.scrollLeft += (direction === 'left' ? -scrollAmount : scrollAmount);
 }
 
+// عرض الأسهم لو في سكرول (ديناميكي)
+document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.nav-tabs-container');
+    containers.forEach(container => {
+        const tabs = container.querySelector('.nav-tabs');
+        const leftArrow = container.querySelector('.tab-arrow.left');
+        const rightArrow = container.querySelector('.tab-arrow.right');
+        if (tabs.scrollWidth > tabs.clientWidth) {
+            leftArrow.style.display = 'block';
+            rightArrow.style.display = 'block';
+        }
+    });
+});
+
 // إزالة hidden في البداية لصفحة الدخول
 document.getElementById('loginPage').classList.remove('hidden');
