@@ -66,6 +66,9 @@ function login() {
         hideAll();
         document.getElementById(`${user.role}Page`).style.display = 'block';
         showNotification('تم تسجيل الدخول بنجاح!');
+        if (user.role === 'teacher' || user.role === 'admin') {
+            loadAccounts(user.role);
+        }
     } else {
         showNotification('بيانات غير صحيحة', 'error');
     }
@@ -84,9 +87,13 @@ function signup() {
     }
 }
 
-// دالة إنشاء كود جديد (عشوائي 6 أرقام)
+// دالة إنشاء كود جديد (16 حرف)
 function generateCode() {
-    const newCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let newCode = '';
+    for (let i = 0; i < 16; i++) {
+        newCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
     const codes = JSON.parse(localStorage.getItem('codes')) || [];
     codes.push(newCode);
     localStorage.setItem('codes', JSON.stringify(codes));
@@ -108,13 +115,14 @@ function generateCode() {
     showNotification('تم إنشاء كود جديد!');
 }
 
-// دالة إنشاء حساب جديد من المودال (مع دعم role)
+// دالة إنشاء حساب جديد من المودال (مع تحقق الباسورد)
 let currentRole = 'student';
 function createAccount() {
     const newU = document.getElementById('newUsername').value.trim();
     const newP = document.getElementById('newPassword').value.trim();
     const confirmP = document.getElementById('confirmPassword').value.trim();
-    if (newU && newP && newP === confirmP) {
+    const arabicRegex = /[\u0600-\u06FF]/;
+    if (newU && newP && confirmP && newP === confirmP && newP.length >= 8 && !arabicRegex.test(newP)) {
         const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
         if (accounts.find(acc => acc.username === newU)) {
             showNotification('اسم المستخدم موجود بالفعل', 'error');
@@ -124,8 +132,17 @@ function createAccount() {
         localStorage.setItem('accounts', JSON.stringify(accounts));
         showNotification('تم إنشاء الحساب بنجاح!');
         closeModal();
+        // تحديث الجدول لو مفتوح
+        if (document.getElementById('teacher-manage-accounts').style.display === 'block') {
+            loadAccounts('teacher');
+        } else if (document.getElementById('admin-manage-accounts').style.display = 'block') {
+            loadAccounts('admin');
+        }
     } else {
-        showNotification('أدخل البيانات كاملة أو تحقق من تطابق كلمة السر', 'error');
+        let errorMsg = 'أدخل البيانات كاملة أو تحقق من تطابق كلمة السر';
+        if (newP.length < 8) errorMsg = 'كلمة السر يجب أن تكون 8 حروف على الأقل';
+        if (arabicRegex.test(newP)) errorMsg = 'كلمة السر يجب أن تكون بالإنجليزية فقط';
+        showNotification(errorMsg, 'error');
     }
 }
 
@@ -133,13 +150,13 @@ function createAccount() {
 function openCreateAccountModal(page, role) {
     currentRole = role;
     document.getElementById('createAccountModal').style.display = 'block';
-    document.body.style.overflow = 'hidden'; // منع scroll عند فتح الـ modal
+    document.body.style.overflow = 'hidden';
 }
 
 // دالة إغلاق المودال
 function closeModal() {
     document.getElementById('createAccountModal').style.display = 'none';
-    document.body.style.overflow = 'auto'; // إعادة الـ scroll
+    document.body.style.overflow = 'auto';
     document.getElementById('newUsername').value = '';
     document.getElementById('newPassword').value = '';
     document.getElementById('confirmPassword').value = '';
@@ -177,17 +194,22 @@ function openTab(evt, tabName) {
     });
     const tabLinks = document.querySelectorAll('.tab-link');
     tabLinks.forEach(link => link.classList.remove('active'));
-    document.getElementById(tabName).style.display = 'block';
+    const targetContent = document.getElementById(tabName);
+    targetContent.style.display = 'block';
     setTimeout(() => {
-        document.getElementById(tabName).classList.add('active');
+        targetContent.classList.add('active');
     }, 10);
     evt.currentTarget.classList.add('active');
+    // تحميل الحسابات لو التب إدارة الحسابات
+    if (tabName.includes('manage-accounts')) {
+        loadAccounts(tabName.split('-')[0]);
+    }
 }
 
 // دالة سكرول الـ tabs بالأسهم
 function scrollTabs(direction, role) {
     const tabs = document.getElementById(`${role}Tabs`);
-    const scrollAmount = 100; // كمية السكرول
+    const scrollAmount = 100;
     tabs.scrollLeft += (direction === 'left' ? -scrollAmount : scrollAmount);
 }
 
@@ -198,12 +220,94 @@ document.addEventListener('DOMContentLoaded', () => {
         const tabs = container.querySelector('.nav-tabs');
         const leftArrow = container.querySelector('.tab-arrow.left');
         const rightArrow = container.querySelector('.tab-arrow.right');
-        if (tabs.scrollWidth > tabs.clientWidth) {
-            leftArrow.style.display = 'block';
-            rightArrow.style.display = 'block';
+        function checkScroll() {
+            leftArrow.style.display = tabs.scrollLeft > 0 ? 'block' : 'none';
+            rightArrow.style.display = tabs.scrollLeft < tabs.scrollWidth - tabs.clientWidth ? 'block' : 'none';
         }
+        tabs.addEventListener('scroll', checkScroll);
+        checkScroll();
     });
 });
+
+// دالة تحميل الحسابات في الجدول
+function loadAccounts(role) {
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const tableBody = document.getElementById(`accountsTable${role.charAt(0).toUpperCase() + role.slice(1)}`).querySelector('tbody');
+    tableBody.innerHTML = '';
+    accounts.forEach((acc, index) => {
+        if (acc.role === 'student' || acc.role === 'assistant') { // عرض الطلاب والأسيستنت فقط
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${acc.username}</td>
+                <td>${acc.role}</td>
+                <td>
+                    <button onclick="editAccount(${index})">تعديل</button>
+                    <button onclick="deleteAccount(${index}, '${role}')">حذف</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+    });
+}
+
+// دالة تعديل حساب
+let editingIndex = -1;
+function editAccount(index) {
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const acc = accounts[index];
+    document.getElementById('editUsername').value = acc.username;
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editConfirmPassword').value = '';
+    editingIndex = index;
+    document.getElementById('editAccountModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// دالة حفظ التعديل
+function saveEditedAccount() {
+    const newU = document.getElementById('editUsername').value.trim();
+    const newP = document.getElementById('editPassword').value.trim();
+    const confirmP = document.getElementById('editConfirmPassword').value.trim();
+    const arabicRegex = /[\u0600-\u06FF]/;
+    if (newU && (newP === '' || (newP === confirmP && newP.length >= 8 && !arabicRegex.test(newP)))) {
+        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+        const existing = accounts.find((acc, idx) => acc.username === newU && idx !== editingIndex);
+        if (existing) {
+            showNotification('اسم المستخدم موجود بالفعل', 'error');
+            return;
+        }
+        accounts[editingIndex].username = newU;
+        if (newP) accounts[editingIndex].password = newP;
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        showNotification('تم تعديل الحساب بنجاح!');
+        closeEditModal();
+        loadAccounts(accounts[editingIndex].role); // تحديث الجدول
+    } else {
+        let errorMsg = 'تحقق من البيانات';
+        if (newP && newP.length < 8) errorMsg = 'كلمة السر يجب أن تكون 8 حروف على الأقل';
+        if (newP && arabicRegex.test(newP)) errorMsg = 'كلمة السر يجب أن تكون بالإنجليزية فقط';
+        if (newP !== confirmP) errorMsg = 'كلمة السر غير متطابقة';
+        showNotification(errorMsg, 'error');
+    }
+}
+
+// دالة إغلاق modal التعديل
+function closeEditModal() {
+    document.getElementById('editAccountModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    editingIndex = -1;
+}
+
+// دالة حذف حساب
+function deleteAccount(index, role) {
+    if (confirm('هل أنت متأكد من حذف الحساب؟')) {
+        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+        accounts.splice(index, 1);
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        showNotification('تم حذف الحساب!');
+        loadAccounts(role);
+    }
+}
 
 // إزالة hidden في البداية لصفحة الدخول
 document.getElementById('loginPage').classList.remove('hidden');
