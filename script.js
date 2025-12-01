@@ -135,7 +135,7 @@ function createAccount() {
         // تحديث الجدول لو مفتوح
         if (document.getElementById('teacher-manage-accounts').style.display === 'block') {
             loadAccounts('teacher');
-        } else if (document.getElementById('admin-manage-accounts').style.display = 'block') {
+        } else if (document.getElementById('admin-manage-accounts').style.display === 'block') {
             loadAccounts('admin');
         }
     } else {
@@ -285,7 +285,7 @@ function saveEditedAccount() {
     } else {
         let errorMsg = 'تحقق من البيانات';
         if (newP && newP.length < 8) errorMsg = 'كلمة السر يجب أن تكون 8 حروف على الأقل';
-        if (newP && arabicRegex.test(newP)) errorMsg = 'كلمة السر يجب أن تكون بالإنجليزية فقط';
+        if (newP && arabicRegex.test(newP)) errorMsg = 'كلمة السر غير متاحة بالعربية';
         if (newP !== confirmP) errorMsg = 'كلمة السر غير متطابقة';
         showNotification(errorMsg, 'error');
     }
