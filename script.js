@@ -76,7 +76,14 @@ function generateCode() {
     const codes = JSON.parse(localStorage.getItem('codes')) || [];
     codes.push(newCode);
     localStorage.setItem('codes', JSON.stringify(codes));
-    document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+    // عرض الكود في الصفحة المناسبة
+    if (document.getElementById('teacherGeneratedCode')) {
+        document.getElementById('teacherGeneratedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+    } else if (document.getElementById('adminGeneratedCode')) {
+        document.getElementById('adminGeneratedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+    } else {
+        document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
+    }
 }
 
 // دالة إنشاء حساب جديد من المودال
@@ -90,7 +97,7 @@ function createAccount() {
             alert('اسم المستخدم موجود بالفعل');
             return;
         }
-        accounts.push({ username: newU, password: newP, role: 'student' }); // افتراضيًا طالب، يمكن تغيير بناءً على الصفحة
+        accounts.push({ username: newU, password: newP, role: 'student' });
         localStorage.setItem('accounts', JSON.stringify(accounts));
         alert('تم إنشاء الحساب بنجاح!');
         closeModal();
@@ -102,13 +109,11 @@ function createAccount() {
 // دالة فتح المودال
 function openCreateAccountModal(page) {
     document.getElementById('createAccountModal').style.display = 'block';
-    // يمكن تخصيص الـ role هنا إذا عايز، مثل hidden field
 }
 
 // دالة إغلاق المودال
 function closeModal() {
     document.getElementById('createAccountModal').style.display = 'none';
-    // مسح الحقول
     document.getElementById('newUsername').value = '';
     document.getElementById('newPassword').value = '';
     document.getElementById('confirmPassword').value = '';
@@ -134,6 +139,22 @@ function logout() {
     hideAll();
     document.getElementById('loginPage').style.display = 'flex';
     document.getElementById('loginPage').classList.remove('hidden');
+}
+
+// دالة فتح التب (التنقل بين الخيارات)
+function openTab(evt, tabName) {
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => {
+        content.style.display = 'none';
+        content.classList.remove('active');
+    });
+    const tabLinks = document.querySelectorAll('.tab-link');
+    tabLinks.forEach(link => link.classList.remove('active'));
+    document.getElementById(tabName).style.display = 'block';
+    setTimeout(() => {
+        document.getElementById(tabName).classList.add('active');
+    }, 10);
+    evt.currentTarget.classList.add('active');
 }
 
 // إزالة hidden في البداية لصفحة الدخول
