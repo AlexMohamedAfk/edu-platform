@@ -79,11 +79,12 @@ function generateCode() {
     document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
 }
 
-// دالة إنشاء حساب جديد (من صفحة المعلم أو الإداري)
-function createAccount(page) {
-    const newU = document.getElementById(`newUsername${page.charAt(0).toUpperCase() + page.slice(1)}`).value.trim();
-    const newP = document.getElementById(`newPassword${page.charAt(0).toUpperCase() + page.slice(1)}`).value.trim();
-    if (newU && newP) {
+// دالة إنشاء حساب جديد من المودال
+function createAccount() {
+    const newU = document.getElementById('newUsername').value.trim();
+    const newP = document.getElementById('newPassword').value.trim();
+    const confirmP = document.getElementById('confirmPassword').value.trim();
+    if (newU && newP && newP === confirmP) {
         const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
         if (accounts.find(acc => acc.username === newU)) {
             alert('اسم المستخدم موجود بالفعل');
@@ -92,9 +93,47 @@ function createAccount(page) {
         accounts.push({ username: newU, password: newP, role: 'student' }); // افتراضيًا طالب
         localStorage.setItem('accounts', JSON.stringify(accounts));
         alert('تم إنشاء الحساب بنجاح!');
+        closeModal();
     } else {
-        alert('أدخل البيانات كاملة');
+        alert('أدخل البيانات كاملة أو تحقق من تطابق كلمة السر');
     }
+}
+
+// دالة فتح المودال
+function openCreateAccountModal(page) {
+    document.getElementById('createAccountModal').style.display = 'block';
+    // يمكن تخصيص بناءً على الصفحة إذا لزم، لكن حاليًا عام
+}
+
+// دالة إغلاق المودال
+function closeModal() {
+    document.getElementById('createAccountModal').style.display = 'none';
+    // مسح الحقول
+    document.getElementById('newUsername').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+}
+
+// دالة تبديل إظهار/إخفاء الباسورد
+function togglePassword(id) {
+    const input = document.getElementById(id);
+    const icon = input.nextElementSibling;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+// دالة تسجيل خروج
+function logout() {
+    hideAll();
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('loginPage').classList.remove('hidden');
 }
 
 // إزالة hidden في البداية لصفحة الدخول
