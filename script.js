@@ -69,6 +69,8 @@ function login() {
         if (user.role === 'teacher' || user.role === 'admin') {
             loadAccounts(user.role);
             loadCodes(user.role);
+        } else if (user.role === 'student') {
+            loadLessons();
         }
     } else {
         showNotification('بيانات غير صحيحة', 'error');
@@ -359,31 +361,4 @@ function closeEditModal() {
 
 // دالة بحث في الحسابات
 function searchAccounts(role) {
-    const input = document.getElementById(`searchAccounts${role.charAt(0).toUpperCase() + role.slice(1)}`).value.toLowerCase();
-    const table = document.getElementById(`accountsTable${role.charAt(0).toUpperCase() + role.slice(1)}`);
-    const tr = table.getElementsByTagName('tr');
-    for (let i = 1; i < tr.length; i++) {
-        const td = tr[i].getElementsByTagName('td')[0];
-        if (td) {
-            const txtValue = td.textContent || td.innerText;
-            tr[i].style.display = txtValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
-        }
-    }
-}
-
-// دالة بحث في الأكواد
-function searchCodes(role) {
-    const input = document.getElementById(`searchCodes${role.charAt(0).toUpperCase() + role.slice(1)}`).value.toLowerCase();
-    const table = document.getElementById(`codesTable${role.charAt(0).toUpperCase() + role.slice(1)}`);
-    const tr = table.getElementsByTagName('tr');
-    for (let i = 1; i < tr.length; i++) {
-        const td = tr[i].getElementsByTagName('td')[0];
-        if (td) {
-            const txtValue = td.textContent || td.innerText;
-            tr[i].style.display = txtValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
-        }
-    }
-}
-
-// إزالة hidden في البداية لصفحة الدخول
-document.getElementById('loginPage').classList.remove('hidden');
+    const input = document.getElementById(`searchAccounts${role.charAt(0).to
