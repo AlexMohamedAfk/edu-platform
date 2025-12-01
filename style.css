@@ -185,7 +185,7 @@ h2, h3 {
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 14px; /* حجم أصغر */
+    font-size: 14px;
     color: #007bff;
     display: none;
     transition: color 0.3s;
@@ -224,13 +224,13 @@ h2, h3 {
 .tab-content {
     display: none;
     opacity: 0;
-    transform: translateX(20px); /* أنيميشن بداية */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* أنيميشن بين الـ tabs */
+    transform: translateX(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .tab-content.active {
     display: block;
     opacity: 1;
-    transform: translateX(0); /* أنيميشن نهاية */
+    transform: translateX(0);
 }
 /* Notification Styles */
 .notification {
