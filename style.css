@@ -346,3 +346,25 @@ h2, h3 {
 .cancel-btn {
     background: #dc3545;
 }
+/* Lessons Cards */
+.lessons-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.lesson-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 300px;
+    padding: 15px;
+    text-align: center;
+}
+.lesson-card img, .lesson-card video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+.lesson-card h4 {
+    margin: 10px 0;
+}
