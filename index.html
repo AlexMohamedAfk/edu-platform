@@ -35,6 +35,8 @@
             <h2>تسجيل عبر كود</h2>
             <input id="code" type="text" placeholder="أدخل الكود" />
             <button onclick="signup()">تسجيل</button>
+            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء كود جديد</button>
+            <p id="generatedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
             <p class="switch-link">لديك حساب؟ <a href="#" onclick="switchToLogin()">تسجيل الدخول</a></p>
         </div>
         <!-- اللوجو في الأسفل -->
@@ -59,12 +61,24 @@
         <div class="header">واجهة المدرّس</div>
         <h3>مرحباً أيها المدرّس</h3>
         <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
+        <div class="create-account">
+            <h4>إنشاء حساب جديد</h4>
+            <input id="newUsernameTeacher" type="text" placeholder="اسم المستخدم الجديد" />
+            <input id="newPasswordTeacher" type="password" placeholder="كلمة السر الجديدة" />
+            <button onclick="createAccount('teacher')">إنشاء حساب</button>
+        </div>
     </div>
     <!-- صفحة الأدمن -->
     <div id="adminPage" class="page">
         <div class="header">واجهة الأدمن</div>
         <h3>مرحباً أيها الإداري</h3>
         <p>لوحة التحكم الكاملة.</p>
+        <div class="create-account">
+            <h4>إنشاء حساب جديد</h4>
+            <input id="newUsernameAdmin" type="text" placeholder="اسم المستخدم الجديد" />
+            <input id="newPasswordAdmin" type="password" placeholder="كلمة السر الجديدة" />
+            <button onclick="createAccount('admin')">إنشاء حساب</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
