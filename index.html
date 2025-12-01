@@ -65,7 +65,7 @@
         </div>
         <div id="student-lessons" class="tab-content" style="display: block;">
             <h3>حصصي</h3>
-            <p>محتوى الحصص (فارغ حاليًا).</p>
+            <div class="lessons-cards"></div> <!-- كروت الحصص -->
         </div>
         <div id="student-homeworks" class="tab-content">
             <h3>واجباتي</h3>
@@ -104,7 +104,36 @@
         </div>
         <div id="teacher-lessons" class="tab-content">
             <h3>الحصص والواجبات</h3>
-            <p>محتوى الحصص والواجبات (سيتم تنفيذه بعدين).</p>
+            <div>
+                <h4>رفع واجب</h4>
+                <input type="file" id="homeworkFile" accept="image/*,video/*,.pdf" />
+                <input type="text" id="homeworkQuestion" placeholder="سؤال الواجب" />
+                <select id="homeworkType">
+                    <option value="multiple">اختياري</option>
+                    <option value="essay">مقالي</option>
+                </select>
+                <input type="text" id="homeworkOptions" placeholder="خيارات (a,b,c,d) للاختياري" />
+                <input type="text" id="homeworkAnswer" placeholder="الحل" />
+                <button onclick="uploadHomework()">رفع الواجب</button>
+            </div>
+            <div>
+                <h4>رفع امتحان</h4>
+                <input type="file" id="examFile" accept="image/*,video/*,.pdf" />
+                <input type="text" id="examQuestion" placeholder="سؤال الامتحان" />
+                <select id="examType">
+                    <option value="multiple">اختياري</option>
+                    <option value="essay">مقالي</option>
+                </select>
+                <input type="text" id="examOptions" placeholder="خيارات (a,b,c,d) للاختياري" />
+                <input type="text" id="examAnswer" placeholder="الحل" />
+                <input type="number" id="examTime" placeholder="الوقت بالدقائق" />
+                <button onclick="uploadExam()">رفع الامتحان</button>
+            </div>
+            <div>
+                <h4>رفع حصة</h4>
+                <input type="file" id="lessonFile" accept="video/*" />
+                <button onclick="uploadLesson()">رفع الحصة</button>
+            </div>
         </div>
         <div id="teacher-settings" class="tab-content">
             <h3>الإعدادات</h3>
@@ -165,8 +194,36 @@
         </div>
         <div id="admin-lessons" class="tab-content">
             <h3>الحصص والواجبات</h3>
-            <button>رفع حصص (سيتم تنفيذه بعدين)</button>
-            <button>رفع واجبات (سيتم تنفيذه بعدين)</button>
+            <div>
+                <h4>رفع واجب</h4>
+                <input type="file" id="homeworkFileAdmin" accept="image/*,video/*,.pdf" />
+                <input type="text" id="homeworkQuestionAdmin" placeholder="سؤال الواجب" />
+                <select id="homeworkTypeAdmin">
+                    <option value="multiple">اختياري</option>
+                    <option value="essay">مقالي</option>
+                </select>
+                <input type="text" id="homeworkOptionsAdmin" placeholder="خيارات (a,b,c,d) للاختياري" />
+                <input type="text" id="homeworkAnswerAdmin" placeholder="الحل" />
+                <button onclick="uploadHomework('admin')">رفع الواجب</button>
+            </div>
+            <div>
+                <h4>رفع امتحان</h4>
+                <input type="file" id="examFileAdmin" accept="image/*,video/*,.pdf" />
+                <input type="text" id="examQuestionAdmin" placeholder="سؤال الامتحان" />
+                <select id="examTypeAdmin">
+                    <option value="multiple">اختياري</option>
+                    <option value="essay">مقالي</option>
+                </select>
+                <input type="text" id="examOptionsAdmin" placeholder="خيارات (a,b,c,d) للاختياري" />
+                <input type="text" id="examAnswerAdmin" placeholder="الحل" />
+                <input type="number" id="examTimeAdmin" placeholder="الوقت بالدقائق" />
+                <button onclick="uploadExam('admin')">رفع الامتحان</button>
+            </div>
+            <div>
+                <h4>رفع حصة</h4>
+                <input type="file" id="lessonFileAdmin" accept="video/*" />
+                <button onclick="uploadLesson('admin')">رفع الحصة</button>
+            </div>
         </div>
         <div id="admin-settings" class="tab-content">
             <h3>الإعدادات</h3>
@@ -225,7 +282,36 @@
         </div>
         <div id="assistant-lessons" class="tab-content">
             <h3>الحصص والواجبات</h3>
-            <p>محتوى الحصص والواجبات (سيتم تنفيذه بعدين).</p>
+            <div>
+                <h4>رفع واجب</h4>
+                <input type="file" id="homeworkFileAssistant" accept="image/*,video/*,.pdf" />
+                <input type="text" id="homeworkQuestionAssistant" placeholder="سؤال الواجب" />
+                <select id="homeworkTypeAssistant">
+                    <option value="multiple">اختياري</option>
+                    <option value="essay">مقالي</option>
+                </select>
+                <input type="text" id="homeworkOptionsAssistant" placeholder="خيارات (a,b,c,d) للاختياري" />
+                <input type="text" id="homeworkAnswerAssistant" placeholder="الحل" />
+                <button onclick="uploadHomework('assistant')">رفع الواجب</button>
+            </div>
+            <div>
+                <h4>رفع امتحان</h4>
+                <input type="file" id="examFileAssistant" accept="image/*,video/*,.pdf" />
+                <input type="text" id="examQuestionAssistant" placeholder="سؤال الامتحان" />
+                <select id="examTypeAssistant">
+                    <option value="multiple">اختياري</option>
+                    <option value="essay">مقالي</option>
+                </select>
+                <input type="text" id="examOptionsAssistant" placeholder="خيارات (a,b,c,d) للاختياري" />
+                <input type="text" id="examAnswerAssistant" placeholder="الحل" />
+                <input type="number" id="examTimeAssistant" placeholder="الوقت بالدقائق" />
+                <button onclick="uploadExam('assistant')">رفع الامتحان</button>
+            </div>
+            <div>
+                <h4>رفع حصة</h4>
+                <input type="file" id="lessonFileAssistant" accept="video/*" />
+                <button onclick="uploadLesson('assistant')">رفع الحصة</button>
+            </div>
         </div>
         <div id="assistant-settings" class="tab-content">
             <h3>الإعدادات</h3>
