@@ -68,6 +68,7 @@ function login() {
         showNotification('تم تسجيل الدخول بنجاح!');
         if (user.role === 'teacher' || user.role === 'admin') {
             loadAccounts(user.role);
+            loadCodes(user.role);
         }
     } else {
         showNotification('بيانات غير صحيحة', 'error');
@@ -200,9 +201,11 @@ function openTab(evt, tabName) {
         targetContent.classList.add('active');
     }, 10);
     evt.currentTarget.classList.add('active');
-    // تحميل الحسابات لو التب إدارة الحسابات
+    // تحميل الحسابات أو الأكواد لو التب إدارة
     if (tabName.includes('manage-accounts')) {
         loadAccounts(tabName.split('-')[0]);
+    } else if (tabName.includes('manage-codes')) {
+        loadCodes(tabName.split('-')[0]);
     }
 }
 
@@ -250,6 +253,23 @@ function loadAccounts(role) {
     });
 }
 
+// دالة تحميل الأكواد في الجدول
+function loadCodes(role) {
+    const codes = JSON.parse(localStorage.getItem('codes')) || [];
+    const tableBody = document.getElementById(`codesTable${role.charAt(0).toUpperCase() + role.slice(1)}`).querySelector('tbody');
+    tableBody.innerHTML = '';
+    codes.forEach((code, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${code}</td>
+            <td>
+                <button onclick="deleteCode(${index}, '${role}')">حذف</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
 // دالة فتح تأكيد الحذف
 let deletingIndex = -1;
 let deletingRole = '';
@@ -276,6 +296,17 @@ function closeDeleteModal() {
     document.body.style.overflow = 'auto';
     deletingIndex = -1;
     deletingRole = '';
+}
+
+// دالة حذف كود
+function deleteCode(index, role) {
+    if (confirm('هل أنت متأكد من حذف هذا الكود؟')) {
+        const codes = JSON.parse(localStorage.getItem('codes')) || [];
+        codes.splice(index, 1);
+        localStorage.setItem('codes', JSON.stringify(codes));
+        showNotification('تم حذف الكود!');
+        loadCodes(role);
+    }
 }
 
 // دالة تعديل حساب
@@ -326,5 +357,20 @@ function closeEditModal() {
     editingIndex = -1;
 }
 
-// إزالة hidden في البداية لصفحة الدخول
-document.getElementById('loginPage').classList.remove('hidden');
+// دالة بحث في الحسابات
+function searchAccounts(role) {
+    const input = document.getElementById(`searchAccounts${role.charAt(0).toUpperCase() + role.slice(1)}`).value.toLowerCase();
+    const table = document.getElementById(`accountsTable${role.charAt(0).toUpperCase() + role.slice(1)}`);
+    const tr = table.getElementsByTagName('tr');
+    for (let i = 1; i < tr.length; i++) {
+        const td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            const txtValue = td.textContent || td.innerText;
+            tr[i].style.display = txtValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
+        }
+    }
+}
+
+// دالة بحث في الأكواد
+function searchCodes(role) {
+    const input = document.getElementById(`searchCodes${
