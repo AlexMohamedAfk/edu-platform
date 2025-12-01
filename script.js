@@ -242,12 +242,40 @@ function loadAccounts(role) {
                 <td>${acc.role}</td>
                 <td>
                     <button onclick="editAccount(${index})">تعديل</button>
-                    <button onclick="deleteAccount(${index}, '${role}')">حذف</button>
+                    <button onclick="openDeleteConfirm(${index}, '${role}')">حذف</button>
                 </td>
             `;
             tableBody.appendChild(row);
         }
     });
+}
+
+// دالة فتح تأكيد الحذف
+let deletingIndex = -1;
+let deletingRole = '';
+function openDeleteConfirm(index, role) {
+    deletingIndex = index;
+    deletingRole = role;
+    document.getElementById('deleteConfirmModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// دالة تأكيد الحذف
+function confirmDelete() {
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    accounts.splice(deletingIndex, 1);
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+    showNotification('تم حذف الحساب!');
+    closeDeleteModal();
+    loadAccounts(deletingRole);
+}
+
+// دالة إغلاق modal التأكيد
+function closeDeleteModal() {
+    document.getElementById('deleteConfirmModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    deletingIndex = -1;
+    deletingRole = '';
 }
 
 // دالة تعديل حساب
@@ -296,17 +324,6 @@ function closeEditModal() {
     document.getElementById('editAccountModal').style.display = 'none';
     document.body.style.overflow = 'auto';
     editingIndex = -1;
-}
-
-// دالة حذف حساب
-function deleteAccount(index, role) {
-    if (confirm('هل أنت متأكد من حذف الحساب؟')) {
-        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
-        accounts.splice(index, 1);
-        localStorage.setItem('accounts', JSON.stringify(accounts));
-        showNotification('تم حذف الحساب!');
-        loadAccounts(role);
-    }
 }
 
 // إزالة hidden في البداية لصفحة الدخول
