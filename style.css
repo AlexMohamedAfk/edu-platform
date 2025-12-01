@@ -1,10 +1,10 @@
 /* الخلفية */
 body {
-    font-family: 'Roboto', sans-serif;
-    background: #f0f4f8; /* أزرق فاتح فاتح لتحسين الشكل */
+    font-family: 'Cairo', sans-serif; /* خط Cairo bold */
+    background: #f0f4f8;
     margin: 0;
     padding: 0;
-    overflow: auto; /* auto عشان لو محتاج scroll، مش hidden */
+    overflow: auto;
 }
 .center {
     display: flex;
@@ -103,7 +103,7 @@ h2, h3 {
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    overflow: visible; /* visible عشان ما يقطعش الحاجات */
+    overflow: visible;
 }
 .switch-link {
     text-align: center;
@@ -116,13 +116,6 @@ h2, h3 {
 }
 .switch-link a:hover {
     text-decoration: underline;
-}
-.create-btn, .logout-btn {
-    width: auto;
-    padding: 10px 20px;
-    margin: 10px auto;
-    display: block;
-    background: #28a745;
 }
 .logout-btn {
     background: #dc3545;
@@ -145,10 +138,10 @@ h2, h3 {
 .modal-content {
     background-color: white;
     margin: 15% auto;
-    padding: 25px; /* زدت padding عشان الإدخال يبقى داخل */
+    padding: 25px;
     border: 1px solid #888;
     width: 90%;
-    max-width: 450px; /* زدت العرض عشان ما يطلعش برا */
+    max-width: 450px;
     border-radius: 10px;
 }
 .close {
@@ -167,7 +160,7 @@ h2, h3 {
     position: relative;
 }
 .password-container input {
-    padding-right: 35px; /* عدلت right عشان يناسب */
+    padding-right: 35px;
 }
 .toggle-password {
     position: absolute;
@@ -190,11 +183,11 @@ h2, h3 {
 .tab-arrow {
     background: transparent;
     border: none;
-    padding: 5px;
+    padding: 5px 10px;
     cursor: pointer;
-    font-size: 14px; /* قللت الحجم */
+    font-size: 14px; /* حجم أصغر */
     color: #007bff;
-    display: none; /* hidden لو مش محتاج، يظهر لو في سكرول */
+    display: none;
     transition: color 0.3s;
 }
 .tab-arrow:hover {
@@ -203,12 +196,12 @@ h2, h3 {
 .nav-tabs {
     display: flex;
     overflow-x: auto;
-    background: #f0f4f8; /* خلفية فاتحة أكثر أناقة */
+    background: #f0f4f8;
     padding: 8px 15px;
-    border-radius: 20px; /* rounded أكثر */
+    border-radius: 20px;
     scroll-behavior: smooth;
     white-space: nowrap;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.05); /* ظل خفيف */
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
 }
 .tab-link {
     padding: 8px 18px;
@@ -217,7 +210,7 @@ h2, h3 {
     font-weight: bold;
     transition: background 0.3s, color 0.3s;
     margin: 0 5px;
-    border-radius: 15px; /* rounded للتبديل */
+    border-radius: 15px;
 }
 .tab-link:hover {
     background: #e0e0e0;
@@ -231,11 +224,13 @@ h2, h3 {
 .tab-content {
     display: none;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transform: translateX(20px); /* أنيميشن بداية */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* أنيميشن بين الـ tabs */
 }
 .tab-content.active {
     display: block;
     opacity: 1;
+    transform: translateX(0); /* أنيميشن نهاية */
 }
 /* Notification Styles */
 .notification {
@@ -252,4 +247,59 @@ h2, h3 {
 }
 .notification.error {
     background: #dc3545;
+}
+/* Accounts Table */
+.accounts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.accounts-table th, .accounts-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.accounts-table th {
+    background: #f2f2f2;
+}
+.accounts-table button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        width: 90%;
+        padding: 20px;
+    }
+    .page {
+        padding: 20px;
+        max-width: 100%;
+    }
+    .nav-tabs {
+        padding: 5px 10px;
+    }
+    .tab-link {
+        padding: 6px 12px;
+    }
+    .modal-content {
+        margin: 20% auto;
+        padding: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .header {
+        font-size: 18px;
+    }
+    button {
+        font-size: 16px;
+    }
+    input {
+        font-size: 14px;
+    }
+    .tab-arrow {
+        padding: 3px 6px;
+        font-size: 12px;
+    }
 }
