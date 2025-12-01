@@ -319,3 +319,218 @@ function deleteCode(index, role) {
         codes.splice(index, 1);
         localStorage.setItem('codes', JSON.stringify(codes));
         showNotification('تم حذف الكود!');
+        loadCodes(role);
+    }
+}
+
+// دالة تعديل حساب
+let editingIndex = -1;
+function editAccount(index) {
+    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+    const acc = accounts[index];
+    document.getElementById('editUsername').value = acc.username;
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editConfirmPassword').value = '';
+    editingIndex = index;
+    document.getElementById('editAccountModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// دالة حفظ التعديل
+function saveEditedAccount() {
+    const newU = document.getElementById('editUsername').value.trim();
+    const newP = document.getElementById('editPassword').value.trim();
+    const confirmP = document.getElementById('editConfirmPassword').value.trim();
+    const arabicRegex = /[\u0600-\u06FF]/;
+    if (newU && (newP === '' || (newP === confirmP && newP.length >= 8 && !arabicRegex.test(newP)))) {
+        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
+        const existing = accounts.find((acc, idx) => acc.username === newU && idx !== editingIndex);
+        if (existing) {
+            showNotification('اسم المستخدم موجود بالفعل', 'error');
+            return;
+        }
+        accounts[editingIndex].username = newU;
+        if (newP) accounts[editingIndex].password = newP;
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        showNotification('تم تعديل الحساب بنجاح!');
+        closeEditModal();
+        loadAccounts(accounts[editingIndex].role); // تحديث الجدول
+    } else {
+        let errorMsg = 'تحقق من البيانات';
+        if (newP && newP.length < 8) errorMsg = 'كلمة السر يجب أن تكون 8 حروف على الأقل';
+        if (newP && arabicRegex.test(newP)) errorMsg = 'كلمة السر غير متاحة بالعربية';
+        if (newP !== confirmP) errorMsg = 'كلمة السر غير متطابقة';
+        showNotification(errorMsg, 'error');
+    }
+}
+
+// دالة إغلاق modal التعديل
+function closeEditModal() {
+    document.getElementById('editAccountModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+    editingIndex = -1;
+}
+
+// دالة بحث في الحسابات
+function searchAccounts(role) {
+    const input = document.getElementById(`searchAccounts${role.charAt(0).toUpperCase() + role.slice(1)}`).value.toLowerCase();
+    const table = document.getElementById(`accountsTable${role.charAt(0).toUpperCase() + role.slice(1)}`);
+    const tr = table.getElementsByTagName('tr');
+    for (let i = 1; i < tr.length; i++) {
+        const td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            const txtValue = td.textContent || td.innerText;
+            tr[i].style.display = txtValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
+        }
+    }
+}
+
+// دالة بحث في الأكواد
+function searchCodes(role) {
+    const input = document.getElementById(`searchCodes${role.charAt(0).toUpperCase() + role.slice(1)}`).value.toLowerCase();
+    const table = document.getElementById(`codesTable${role.charAt(0).toUpperCase() + role.slice(1)}`);
+    const tr = table.getElementsByTagName('tr');
+    for (let i = 1; i < tr.length; i++) {
+        const td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            const txtValue = td.textContent || td.innerText;
+            tr[i].style.display = txtValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
+        }
+    }
+}
+
+// إزالة hidden في البداية لصفحة الدخول
+document.getElementById('loginPage').classList.remove('hidden');
+
+// دالة إضافة سؤال (للواجب أو الامتحان)
+let homeworkQuestionCount = 0;
+let examQuestionCount = 0;
+function addQuestion(type, page = '') {
+    const container = document.getElementById(`${type}Questions${page.charAt(0).toUpperCase() + page.slice(1)}`);
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question';
+    questionDiv.innerHTML = `
+        <input type="text" placeholder="سؤال" />
+        <select>
+            <option value="multiple">اختياري</option>
+            <option value="essay">مقالي</option>
+        </select>
+        <input type="text" placeholder="خيارات (a,b,c,d) للاختياري" />
+        <input type="text" placeholder="الحل" />
+    `;
+    container.appendChild(questionDiv);
+    if (type === 'homework') homeworkQuestionCount++;
+    if (type === 'exam') examQuestionCount++;
+}
+
+// دالة رفع المحتوى (حصة + واجب + امتحان)
+function uploadContent(page = '') {
+    const title = document.getElementById(`contentTitle${page.charAt(0).toUpperCase() + page.slice(1)}`).value;
+    const lessonFile = document.getElementById(`lessonVideo${page.charAt(0).toUpperCase() + page.slice(1)}`).files[0];
+    const examTime = document.getElementById(`examTime${page.charAt(0).toUpperCase() + page.slice(1)}`).value;
+    const homeworkQuestions = [];
+    const examQuestions = [];
+    // جمع أسئلة الواجب
+    const homeworkContainer = document.getElementById(`homeworkQuestions${page.charAt(0).toUpperCase() + page.slice(1)}`).children;
+    for (let q of homeworkContainer) {
+        const inputs = q.querySelectorAll('input, select');
+        homeworkQuestions.push({
+            question: inputs[0].value,
+            type: inputs[1].value,
+            options: inputs[2].value,
+            answer: inputs[3].value
+        });
+    }
+    // جمع أسئلة الامتحان
+    const examContainer = document.getElementById(`examQuestions${page.charAt(0).toUpperCase() + page.slice(1)}`).children;
+    for (let q of examContainer) {
+        const inputs = q.querySelectorAll('input, select');
+        examQuestions.push({
+            question: inputs[0].value,
+            type: inputs[1].value,
+            options: inputs[2].value,
+            answer: inputs[3].value
+        });
+    }
+    if (title && lessonFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const contents = JSON.parse(localStorage.getItem('contents')) || [];
+            contents.push({
+                id: contents.length + 1,
+                title,
+                videoUrl: e.target.result, // base64
+                homework: homeworkQuestions,
+                exam: examQuestions,
+                examTime: examTime || 60 // default 60 min
+            });
+            localStorage.setItem('contents', JSON.stringify(contents));
+            showNotification('تم رفع المحتوى!');
+            // تحديث progress bar (محاكاة)
+            const progressBar = document.getElementById(`progressBar${page.charAt(0).toUpperCase() + page.slice(1)}`);
+            const progressPercent = document.getElementById(`progressPercent${page.charAt(0).toUpperCase() + page.slice(1)}`);
+            document.getElementById(`uploadProgress${page.charAt(0).toUpperCase() + page.slice(1)}`).style.display = 'block';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.value = progress;
+                progressPercent.textContent = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById(`uploadProgress${page.charAt(0).toUpperCase() + page.slice(1)}`).style.display = 'none';
+                    }, 1000);
+                }
+            }, 200);
+        };
+        reader.readAsDataURL(lessonFile);
+    } else {
+        showNotification('أدخل العنوان والفيديو!', 'error');
+    }
+}
+
+// دالة تحميل تقدم الطالب
+function loadStudentProgress(userId) {
+    const progress = JSON.parse(localStorage.getItem('studentProgress')) || [];
+    const userProgress = progress.find(p => p.userId === userId) || { homeworkDone: false, examDone: false, viewsLeft: 5 };
+    if (!progress.find(p => p.userId === userId)) {
+        progress.push({ userId, homeworkDone: false, examDone: false, viewsLeft: 5 });
+        localStorage.setItem('studentProgress', JSON.stringify(progress));
+    }
+    return userProgress;
+}
+
+// دالة تحميل الحصص للطالب
+function loadLessons() {
+    const contents = JSON.parse(localStorage.getItem('contents')) || [];
+    const cardsContainer = document.querySelector('.lessons-cards');
+    cardsContainer.innerHTML = '';
+    contents.forEach(content => {
+        const card = document.createElement('div');
+        card.className = 'lesson-card';
+        card.innerHTML = `
+            <video controls src="${content.videoUrl}"></video>
+            <h4>${content.title}</h4>
+            <span class="badge">مشاهدات متبقية: ${loadStudentProgress(JSON.parse(localStorage.getItem('currentUser')).username).viewsLeft}</span>
+        `;
+        cardsContainer.appendChild(card);
+    });
+}
+
+// دالة زيادة مشاهدات للطالب
+function addViewsToStudent(page = '') {
+    const studentId = document.getElementById(`studentId${page.charAt(0).toUpperCase() + page.slice(1)}`).value.trim();
+    const additional = parseInt(document.getElementById(`additionalViews${page.charAt(0).toUpperCase() + page.slice(1)}`).value) || 0;
+    const progress = JSON.parse(localStorage.getItem('studentProgress')) || [];
+    const userProgress = progress.find(p => p.userId === studentId);
+    if (userProgress) {
+        userProgress.viewsLeft += additional;
+        localStorage.setItem('studentProgress', JSON.stringify(progress));
+        showNotification('تم زيادة المشاهدات!');
+    } else {
+        showNotification('الطالب غير موجود', 'error');
+    }
+}
+
+// إزالة hidden في البداية لصفحة الدخول
+document.getElementById('loginPage').classList.remove('hidden');
