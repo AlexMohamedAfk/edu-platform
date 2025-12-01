@@ -43,6 +43,12 @@ if (!localStorage.getItem('accounts')) {
 if (!localStorage.getItem('codes')) {
     localStorage.setItem('codes', JSON.stringify([]));
 }
+if (!localStorage.getItem('contents')) {
+    localStorage.setItem('contents', JSON.stringify([])); // محتوى الحصص + واجب + امتحان
+}
+if (!localStorage.getItem('studentProgress')) {
+    localStorage.setItem('studentProgress', JSON.stringify([])); // تقدم الطلاب
+}
 
 // دالة عرض إشعار
 function showNotification(message, type = 'success') {
@@ -66,10 +72,12 @@ function login() {
         hideAll();
         document.getElementById(`${user.role}Page`).style.display = 'block';
         showNotification('تم تسجيل الدخول بنجاح!');
-        if (user.role === 'teacher' || user.role === 'admin') {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        if (user.role === 'teacher' || user.role === 'admin' || user.role === 'assistant') {
             loadAccounts(user.role);
             loadCodes(user.role);
         } else if (user.role === 'student') {
+            loadStudentProgress(u);
             loadLessons();
         }
     } else {
@@ -85,6 +93,9 @@ function signup() {
         hideAll();
         document.getElementById('studentPage').style.display = 'block';
         showNotification('تم التسجيل بنجاح عبر الكود!');
+        localStorage.setItem('currentUser', JSON.stringify({username: code, role: 'student'}));
+        loadStudentProgress(code);
+        loadLessons();
     } else {
         showNotification('كود غير صحيح', 'error');
     }
@@ -185,10 +196,11 @@ function logout() {
     hideAll();
     document.getElementById('loginPage').style.display = 'flex';
     document.getElementById('loginPage').classList.remove('hidden');
+    localStorage.removeItem('currentUser');
     showNotification('تم تسجيل الخروج!');
 }
 
-// دالة فتح التب (التنقل بين الخيارات)
+// دالة فتح التب (التنقل بين التابات)
 function openTab(evt, tabName) {
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
@@ -307,58 +319,3 @@ function deleteCode(index, role) {
         codes.splice(index, 1);
         localStorage.setItem('codes', JSON.stringify(codes));
         showNotification('تم حذف الكود!');
-        loadCodes(role);
-    }
-}
-
-// دالة تعديل حساب
-let editingIndex = -1;
-function editAccount(index) {
-    const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
-    const acc = accounts[index];
-    document.getElementById('editUsername').value = acc.username;
-    document.getElementById('editPassword').value = '';
-    document.getElementById('editConfirmPassword').value = '';
-    editingIndex = index;
-    document.getElementById('editAccountModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-// دالة حفظ التعديل
-function saveEditedAccount() {
-    const newU = document.getElementById('editUsername').value.trim();
-    const newP = document.getElementById('editPassword').value.trim();
-    const confirmP = document.getElementById('editConfirmPassword').value.trim();
-    const arabicRegex = /[\u0600-\u06FF]/;
-    if (newU && (newP === '' || (newP === confirmP && newP.length >= 8 && !arabicRegex.test(newP)))) {
-        const accounts = JSON.parse(localStorage.getItem('accounts')) || [];
-        const existing = accounts.find((acc, idx) => acc.username === newU && idx !== editingIndex);
-        if (existing) {
-            showNotification('اسم المستخدم موجود بالفعل', 'error');
-            return;
-        }
-        accounts[editingIndex].username = newU;
-        if (newP) accounts[editingIndex].password = newP;
-        localStorage.setItem('accounts', JSON.stringify(accounts));
-        showNotification('تم تعديل الحساب بنجاح!');
-        closeEditModal();
-        loadAccounts(accounts[editingIndex].role); // تحديث الجدول
-    } else {
-        let errorMsg = 'تحقق من البيانات';
-        if (newP && newP.length < 8) errorMsg = 'كلمة السر يجب أن تكون 8 حروف على الأقل';
-        if (newP && arabicRegex.test(newP)) errorMsg = 'كلمة السر غير متاحة بالعربية';
-        if (newP !== confirmP) errorMsg = 'كلمة السر غير متطابقة';
-        showNotification(errorMsg, 'error');
-    }
-}
-
-// دالة إغلاق modal التعديل
-function closeEditModal() {
-    document.getElementById('editAccountModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-    editingIndex = -1;
-}
-
-// دالة بحث في الحسابات
-function searchAccounts(role) {
-    const input = document.getElementById(`searchAccounts${role.charAt(0).to
