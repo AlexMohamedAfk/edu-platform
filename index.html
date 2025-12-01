@@ -237,6 +237,16 @@
             <button onclick="saveEditedAccount()">حفظ</button>
         </div>
     </div>
+    <!-- Modal لتأكيد الحذف -->
+    <div id="deleteConfirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h2>تأكيد الحذف</h2>
+            <p>هل أنت متأكد من حذف هذا الحساب؟</p>
+            <button onclick="confirmDelete()" class="confirm-btn">نعم</button>
+            <button onclick="closeDeleteModal()" class="cancel-btn">لا</button>
+        </div>
+    </div>
     <!-- نظام الإشعارات (toast) -->
     <div id="notification" class="notification"></div>
     <script src="script.js"></script>
