@@ -43,12 +43,6 @@ if (!localStorage.getItem('accounts')) {
 if (!localStorage.getItem('codes')) {
     localStorage.setItem('codes', JSON.stringify([]));
 }
-if (!localStorage.getItem('contents')) {
-    localStorage.setItem('contents', JSON.stringify([])); // محتوى الحصص + واجب + امتحان
-}
-if (!localStorage.getItem('studentProgress')) {
-    localStorage.setItem('studentProgress', JSON.stringify([])); // تقدم الطلاب
-}
 
 // دالة عرض إشعار
 function showNotification(message, type = 'success') {
@@ -72,12 +66,10 @@ function login() {
         hideAll();
         document.getElementById(`${user.role}Page`).style.display = 'block';
         showNotification('تم تسجيل الدخول بنجاح!');
-        localStorage.setItem('currentUser', JSON.stringify(user));
         if (user.role === 'teacher' || user.role === 'admin' || user.role === 'assistant') {
             loadAccounts(user.role);
             loadCodes(user.role);
         } else if (user.role === 'student') {
-            loadStudentProgress(u);
             loadLessons();
         }
     } else {
@@ -93,9 +85,6 @@ function signup() {
         hideAll();
         document.getElementById('studentPage').style.display = 'block';
         showNotification('تم التسجيل بنجاح عبر الكود!');
-        localStorage.setItem('currentUser', JSON.stringify({username: code, role: 'student'}));
-        loadStudentProgress(code);
-        loadLessons();
     } else {
         showNotification('كود غير صحيح', 'error');
     }
@@ -122,11 +111,39 @@ function generateCode() {
         if (elem) {
             elem.textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
             showNotification('تم إنشاء كود جديد!');
+            navigator.clipboard.writeText(newCode).then(() => {
+                showNotification('تم نسخ الكود إلى الحافظة!');
+            });
             return;
         }
     }
     document.getElementById('generatedCode').textContent = `الكود الجديد: ${newCode} (انسخه للاستخدام)`;
     showNotification('تم إنشاء كود جديد!');
+    navigator.clipboard.writeText(newCode).then(() => {
+        showNotification('تم نسخ الكود إلى الحافظة!');
+    });
+}
+
+// دالة إنشاء أكواد متعددة
+function generateMultipleCodes() {
+    const num = parseInt(document.getElementById('numCodes').value) || 1;
+    let codesText = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const codes = JSON.parse(localStorage.getItem('codes')) || [];
+    for (let j = 0; j < num; j++) {
+        let newCode = '';
+        for (let i = 0; i < 16; i++) {
+            newCode += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        codes.push(newCode);
+        codesText += newCode + '\n';
+    }
+    localStorage.setItem('codes', JSON.stringify(codes));
+    document.getElementById('teacherGeneratedCode').textContent = `الأكواد الجديدة:\n${codesText}`;
+    showNotification('تم إنشاء الأكواد!');
+    navigator.clipboard.writeText(codesText).then(() => {
+        showNotification('تم نسخ الأكواد إلى الحافظة!');
+    });
 }
 
 // دالة إنشاء حساب جديد من المودال (مع تحقق الباسورد)
@@ -196,11 +213,10 @@ function logout() {
     hideAll();
     document.getElementById('loginPage').style.display = 'flex';
     document.getElementById('loginPage').classList.remove('hidden');
-    localStorage.removeItem('currentUser');
     showNotification('تم تسجيل الخروج!');
 }
 
-// دالة فتح التب (التنقل بين التابات)
+// دالة فتح التب (التنقل بين الخيارات)
 function openTab(evt, tabName) {
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(content => {
