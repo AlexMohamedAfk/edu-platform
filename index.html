@@ -55,29 +55,39 @@
         <div class="header">واجهة الطالب</div>
         <h3>مرحباً أيها الطالب</h3>
         <p>هنا سترى: الواجبات – الامتحانات – فيديوهات الحصة.</p>
+        <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
     <!-- صفحة المدرّس -->
     <div id="teacherPage" class="page">
         <div class="header">واجهة المدرّس</div>
         <h3>مرحباً أيها المدرّس</h3>
         <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
-        <div class="create-account">
-            <h4>إنشاء حساب جديد</h4>
-            <input id="newUsernameTeacher" type="text" placeholder="اسم المستخدم الجديد" />
-            <input id="newPasswordTeacher" type="password" placeholder="كلمة السر الجديدة" />
-            <button onclick="createAccount('teacher')">إنشاء حساب</button>
-        </div>
+        <button onclick="openCreateAccountModal('teacher')" class="create-btn">إنشاء حساب جديد</button>
+        <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
     <!-- صفحة الأدمن -->
     <div id="adminPage" class="page">
         <div class="header">واجهة الأدمن</div>
         <h3>مرحباً أيها الإداري</h3>
         <p>لوحة التحكم الكاملة.</p>
-        <div class="create-account">
-            <h4>إنشاء حساب جديد</h4>
-            <input id="newUsernameAdmin" type="text" placeholder="اسم المستخدم الجديد" />
-            <input id="newPasswordAdmin" type="password" placeholder="كلمة السر الجديدة" />
-            <button onclick="createAccount('admin')">إنشاء حساب</button>
+        <button onclick="openCreateAccountModal('admin')" class="create-btn">إنشاء حساب جديد</button>
+        <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
+    </div>
+    <!-- Modal لإنشاء حساب -->
+    <div id="createAccountModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>إنشاء حساب جديد</h2>
+            <input id="newUsername" type="text" placeholder="اسم المستخدم الجديد" />
+            <div class="password-container">
+                <input id="newPassword" type="password" placeholder="كلمة السر الجديدة" />
+                <i class="fas fa-eye toggle-password" onclick="togglePassword('newPassword')"></i>
+            </div>
+            <div class="password-container">
+                <input id="confirmPassword" type="password" placeholder="تأكيد كلمة السر" />
+                <i class="fas fa-eye toggle-password" onclick="togglePassword('confirmPassword')"></i>
+            </div>
+            <button id="createAccountBtn" onclick="createAccount()">إنشاء</button>
         </div>
     </div>
     <script src="script.js"></script>
