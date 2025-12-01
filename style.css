@@ -4,7 +4,7 @@ body {
     background: white;
     margin: 0;
     padding: 0;
-    overflow: auto; /* غيرت لـ auto عشان لو في محتوى كتير */
+    overflow: auto;
 }
 .center {
     display: flex;
@@ -97,7 +97,7 @@ h2, h3 {
 }
 .page {
     display: none;
-    padding: 40px; /* زدت المسافات لتحسين الشكل */
+    padding: 40px;
     max-width: 800px;
     margin: 0 auto;
     background: #f8f9fa;
@@ -179,4 +179,34 @@ h2, h3 {
 }
 .toggle-password:hover {
     color: #000;
+}
+/* Nav Tabs Styles */
+.nav-tabs {
+    display: flex;
+    justify-content: space-around;
+    background: #e0e0e0;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.tab-link {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+.tab-link.active {
+    background: #1e63ff;
+    color: white;
+    border-radius: 8px;
+}
+.tab-content {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.tab-content.active {
+    display: block;
+    opacity: 1;
 }
