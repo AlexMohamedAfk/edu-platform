@@ -6,20 +6,6 @@ body {
     padding: 0;
     overflow: hidden;
 }
-.letter {
-    position: absolute;
-    font-size: 24px;
-    color: rgba(192, 192, 192, 0.7);
-    user-select: none;
-    animation: float 15s ease-in-out infinite;
-    opacity: 0.8;
-}
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-}
 .center {
     display: flex;
     justify-content: center;
@@ -125,4 +111,14 @@ h2, h3 {
 }
 .switch-link a:hover {
     text-decoration: underline;
+}
+.create-account {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+.create-account h4 {
+    text-align: center;
+    color: #1e63ff;
 }
