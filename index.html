@@ -53,24 +53,80 @@
     <!-- صفحة الطالب -->
     <div id="studentPage" class="page">
         <div class="header">واجهة الطالب</div>
-        <h3>مرحباً أيها الطالب</h3>
-        <p>هنا سترى: الواجبات – الامتحانات – فيديوهات الحصة.</p>
+        <div class="nav-tabs">
+            <a href="#" class="tab-link active" onclick="openTab(event, 'student-lessons')">حصصي</a>
+            <a href="#" class="tab-link" onclick="openTab(event, 'student-homeworks')">واجباتي</a>
+            <a href="#" class="tab-link" onclick="openTab(event, 'student-settings')">الإعدادات</a>
+        </div>
+        <div id="student-lessons" class="tab-content" style="display: block;">
+            <h3>حصصي</h3>
+            <p>محتوى الحصص (فارغ حاليًا).</p>
+        </div>
+        <div id="student-homeworks" class="tab-content">
+            <h3>واجباتي</h3>
+            <p>محتوى الواجبات (فارغ حاليًا).</p>
+        </div>
+        <div id="student-settings" class="tab-content">
+            <h3>الإعدادات</h3>
+            <p>إعدادات الطالب (فارغ حاليًا).</p>
+        </div>
         <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
     <!-- صفحة المدرّس -->
     <div id="teacherPage" class="page">
         <div class="header">واجهة المدرّس</div>
-        <h3>مرحباً أيها المدرّس</h3>
-        <p>يمكنك رفع فيديو – رفع امتحان – إدارة المحتوى.</p>
-        <button onclick="openCreateAccountModal('teacher')" class="create-btn">إنشاء حساب جديد</button>
+        <div class="nav-tabs">
+            <a href="#" class="tab-link active" onclick="openTab(event, 'teacher-students')">إدارة الطلاب</a>
+            <a href="#" class="tab-link" onclick="openTab(event, 'teacher-lessons')">الحصص والواجبات</a>
+            <a href="#" class="tab-link" onclick="openTab(event, 'teacher-settings')">الإعدادات</a>
+        </div>
+        <div id="teacher-students" class="tab-content" style="display: block;">
+            <h3>إدارة الطلاب</h3>
+            <button onclick="openCreateAccountModal('teacher')">إنشاء حسابات للطلاب</button>
+            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء أكواد للطلاب</button>
+            <p id="teacherGeneratedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
+            <p>إعطاء حصص للطلاب (فارغ حاليًا).</p>
+            <p>تزويد عدد المشاهدات للطلاب (فارغ حاليًا).</p>
+            <p>مراجعة حل امتحانات الطلاب (فارغ حاليًا).</p>
+            <p>مراجعة واجبات الطلاب (فارغ حاليًا).</p>
+        </div>
+        <div id="teacher-lessons" class="tab-content">
+            <h3>الحصص والواجبات</h3>
+            <p>محتوى الحصص والواجبات (فارغ حاليًا).</p>
+        </div>
+        <div id="teacher-settings" class="tab-content">
+            <h3>الإعدادات</h3>
+            <p>إعدادات المدرس (فارغ حاليًا).</p>
+        </div>
         <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
     <!-- صفحة الأدمن -->
     <div id="adminPage" class="page">
         <div class="header">واجهة الأدمن</div>
-        <h3>مرحباً أيها الإداري</h3>
-        <p>لوحة التحكم الكاملة.</p>
-        <button onclick="openCreateAccountModal('admin')" class="create-btn">إنشاء حساب جديد</button>
+        <div class="nav-tabs">
+            <a href="#" class="tab-link active" onclick="openTab(event, 'admin-students')">إدارة الطلاب</a>
+            <a href="#" class="tab-link" onclick="openTab(event, 'admin-lessons')">الحصص والواجبات</a>
+            <a href="#" class="tab-link" onclick="openTab(event, 'admin-settings')">الإعدادات</a>
+        </div>
+        <div id="admin-students" class="tab-content" style="display: block;">
+            <h3>إدارة الطلاب</h3>
+            <button onclick="openCreateAccountModal('admin')">إنشاء حسابات للطلاب</button>
+            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء أكواد للطلاب</button>
+            <p id="adminGeneratedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
+            <p>إعطاء حصص للطلاب (فارغ حاليًا).</p>
+            <p>تزويد عدد المشاهدات للطلاب (فارغ حاليًا).</p>
+            <p>مراجعة حل امتحانات الطلاب (فارغ حاليًا).</p>
+            <p>مراجعة واجبات الطلاب (فارغ حاليًا).</p>
+        </div>
+        <div id="admin-lessons" class="tab-content">
+            <h3>الحصص والواجبات</h3>
+            <button>رفع حصص (فارغ حاليًا)</button>
+            <button>رفع واجبات (فارغ حاليًا)</button>
+        </div>
+        <div id="admin-settings" class="tab-content">
+            <h3>الإعدادات</h3>
+            <p>إعدادات الأدمن (فارغ حاليًا).</p>
+        </div>
         <button onclick="logout()" class="logout-btn">تسجيل خروج</button>
     </div>
     <!-- Modal لإنشاء حساب -->
