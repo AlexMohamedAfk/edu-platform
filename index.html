@@ -85,6 +85,7 @@
             <div class="nav-tabs" id="teacherTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'teacher-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-lessons')">الحصص والواجبات</a>
+                <a href="#" class="tab-link" onclick="openTab(event, 'teacher-uploaded-lessons')">الحصص المرفوعة</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-settings')">الإعدادات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-manage-accounts')">إدارة الحسابات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-manage-codes')">إدارة الأكواد</a>
@@ -127,10 +128,17 @@
                 </div>
             </div>
         </div>
+        <div id="teacher-uploaded-lessons" class="tab-content">
+            <h3>الحصص المرفوعة</h3>
+            <div id="uploadedLessonsList"></div> <!-- قائمة الحصص المرفوعة -->
+        </div>
         <div id="teacher-settings" class="tab-content">
             <h3>الإعدادات</h3>
-            <p>إعدادات المدرس (مثل زيادة عدد المشاهدات للطلاب).</p>
+            <p>إعدادات المدرس (مثل زيادة عدد المشاهدات للطلاب لحصة معينة).</p>
             <input type="text" id="studentId" placeholder="يوزرنيم أو كود الطالب" />
+            <select id="lessonId" placeholder="اختر الحصة">
+                <!-- الحصص تُضاف ديناميكيًا -->
+            </select>
             <input type="number" id="additionalViews" placeholder="عدد المشاهدات الإضافية" />
             <button onclick="addViewsToStudent()">زيادة مشاهدات</button>
         </div>
@@ -171,6 +179,7 @@
             <div class="nav-tabs" id="adminTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'admin-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-lessons')">الحصص والواجبات</a>
+                <a href="#" class="tab-link" onclick="openTab(event, 'admin-uploaded-lessons')">الحصص المرفوعة</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-settings')">الإعدادات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-manage-accounts')">إدارة الحسابات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-manage-codes')">إدارة الأكواد</a>
@@ -211,10 +220,17 @@
                 </div>
             </div>
         </div>
+        <div id="admin-uploaded-lessons" class="tab-content">
+            <h3>الحصص المرفوعة</h3>
+            <div id="uploadedLessonsListAdmin"></div>
+        </div>
         <div id="admin-settings" class="tab-content">
             <h3>الإعدادات</h3>
-            <p>إعدادات الأدمن (مثل زيادة عدد المشاهدات للطلاب).</p>
+            <p>إعدادات الأدمن (مثل زيادة عدد المشاهدات للطلاب لحصة معينة).</p>
             <input type="text" id="studentIdAdmin" placeholder="يوزرنيم أو كود الطالب" />
+            <select id="lessonIdAdmin" placeholder="اختر الحصة">
+                <!-- الحصص تُضاف ديناميكيًا -->
+            </select>
             <input type="number" id="additionalViewsAdmin" placeholder="عدد المشاهدات الإضافية" />
             <button onclick="addViewsToStudent('admin')">زيادة مشاهدات</button>
         </div>
@@ -255,6 +271,7 @@
             <div class="nav-tabs" id="assistantTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'assistant-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'assistant-lessons')">الحصص والواجبات</a>
+                <a href="#" class="tab-link" onclick="openTab(event, 'assistant-uploaded-lessons')">الحصص المرفوعة</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'assistant-settings')">الإعدادات</a>
             </div>
             <button class="tab-arrow right" onclick="scrollTabs('right', 'assistant')">&gt;</button>
@@ -293,10 +310,17 @@
                 </div>
             </div>
         </div>
+        <div id="assistant-uploaded-lessons" class="tab-content">
+            <h3>الحصص المرفوعة</h3>
+            <div id="uploadedLessonsListAssistant"></div>
+        </div>
         <div id="assistant-settings" class="tab-content">
             <h3>الإعدادات</h3>
-            <p>إعدادات الأسيستنت (مثل زيادة عدد المشاهدات للطلاب).</p>
+            <p>إعدادات الأسيستنت (مثل زيادة عدد المشاهدات للطلاب لحصة معينة).</p>
             <input type="text" id="studentIdAssistant" placeholder="يوزرنيم أو كود الطالب" />
+            <select id="lessonIdAssistant" placeholder="اختر الحصة">
+                <!-- الحصص تُضاف ديناميكيًا -->
+            </select>
             <input type="number" id="additionalViewsAssistant" placeholder="عدد المشاهدات الإضافية" />
             <button onclick="addViewsToStudent('assistant')">زيادة مشاهدات</button>
         </div>
