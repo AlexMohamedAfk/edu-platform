@@ -66,9 +66,12 @@ function login() {
         hideAll();
         document.getElementById(`${user.role}Page`).style.display = 'block';
         showNotification('تم تسجيل الدخول بنجاح!');
+        localStorage.setItem('currentUser', JSON.stringify(user));
         if (user.role === 'teacher' || user.role === 'admin' || user.role === 'assistant') {
             loadAccounts(user.role);
             loadCodes(user.role);
+            loadUploadedLessons(user.role);
+            loadLessonsSelect(user.role);
         } else if (user.role === 'student') {
             loadLessons();
         }
@@ -85,6 +88,8 @@ function signup() {
         hideAll();
         document.getElementById('studentPage').style.display = 'block';
         showNotification('تم التسجيل بنجاح عبر الكود!');
+        localStorage.setItem('currentUser', JSON.stringify({username: code, role: 'student'}));
+        loadLessons();
     } else {
         showNotification('كود غير صحيح', 'error');
     }
@@ -213,6 +218,7 @@ function logout() {
     hideAll();
     document.getElementById('loginPage').style.display = 'flex';
     document.getElementById('loginPage').classList.remove('hidden');
+    localStorage.removeItem('currentUser');
     showNotification('تم تسجيل الخروج!');
 }
 
@@ -236,6 +242,8 @@ function openTab(evt, tabName) {
         loadAccounts(tabName.split('-')[0]);
     } else if (tabName.includes('manage-codes')) {
         loadCodes(tabName.split('-')[0]);
+    } else if (tabName.includes('uploaded-lessons')) {
+        loadUploadedLessons(tabName.split('-')[0]);
     }
 }
 
@@ -536,16 +544,44 @@ function loadLessons() {
 // دالة زيادة مشاهدات للطالب
 function addViewsToStudent(page = '') {
     const studentId = document.getElementById(`studentId${page.charAt(0).toUpperCase() + page.slice(1)}`).value.trim();
+    const lessonId = document.getElementById(`lessonId${page.charAt(0).toUpperCase() + page.slice(1)}`).value;
     const additional = parseInt(document.getElementById(`additionalViews${page.charAt(0).toUpperCase() + page.slice(1)}`).value) || 0;
     const progress = JSON.parse(localStorage.getItem('studentProgress')) || [];
     const userProgress = progress.find(p => p.userId === studentId);
     if (userProgress) {
-        userProgress.viewsLeft += additional;
+        if (!userProgress.viewsPerLesson) userProgress.viewsPerLesson = {};
+        if (!userProgress.viewsPerLesson[lessonId]) userProgress.viewsPerLesson[lessonId] = 5; // افتراضي
+        userProgress.viewsPerLesson[lessonId] += additional;
         localStorage.setItem('studentProgress', JSON.stringify(progress));
         showNotification('تم زيادة المشاهدات!');
     } else {
         showNotification('الطالب غير موجود', 'error');
     }
+}
+
+// دالة تحميل قائمة الحصص المرفوعة
+function loadUploadedLessons(role) {
+    const contents = JSON.parse(localStorage.getItem('contents')) || [];
+    const listContainer = document.getElementById(`uploadedLessonsList${role.charAt(0).toUpperCase() + role.slice(1)}`);
+    listContainer.innerHTML = '';
+    contents.forEach(content => {
+        const item = document.createElement('p');
+        item.textContent = `الحصة: ${content.title} (ID: ${content.id})`;
+        listContainer.appendChild(item);
+    });
+}
+
+// دالة تحميل خيارات الحصص في الإعدادات
+function loadLessonsSelect(role) {
+    const contents = JSON.parse(localStorage.getItem('contents')) || [];
+    const select = document.getElementById(`lessonId${role.charAt(0).toUpperCase() + role.slice(1)}`);
+    select.innerHTML = '';
+    contents.forEach(content => {
+        const option = document.createElement('option');
+        option.value = content.id;
+        option.textContent = content.title;
+        select.appendChild(option);
+    });
 }
 
 // إزالة hidden في البداية لصفحة الدخول
