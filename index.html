@@ -17,7 +17,7 @@
             <input id="username" type="text" placeholder="اسم المستخدم" />
             <input id="password" type="password" placeholder="كلمة السر" />
             <button onclick="login()">دخول</button>
-            <p class="switch-link">ليس لديك حساب؟ <a href="#" onclick="switchToSignup()">تسجيل عبر كود</a></p>
+            <p class="switch-link">ليس لديك حساب؟ <span onclick="switchToSignup()" style="cursor: pointer; color: #007bff;">تسجيل عبر كود</span></p>
         </div>
         <!-- اللوجو في الأسفل -->
         <div class="footer-info">
@@ -36,9 +36,8 @@
             <h2>تسجيل عبر كود</h2>
             <input id="code" type="text" placeholder="أدخل الكود" />
             <button onclick="signup()">تسجيل</button>
-            <!-- تم إزالة زر إنشاء كود جديد كما طلبت -->
             <p id="generatedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
-            <p class="switch-link">لديك حساب؟ <a href="#" onclick="switchToLogin()">تسجيل الدخول</a></p>
+            <p class="switch-link">لديك حساب؟ <span onclick="switchToLogin()" style="cursor: pointer; color: #007bff;">تسجيل الدخول</span></p>
         </div>
         <!-- اللوجو في الأسفل -->
         <div class="footer-info">
@@ -55,7 +54,6 @@
     <div id="studentPage" class="page">
         <div class="header">واجهة الطالب</div>
         <div class="nav-tabs-container">
-            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="studentTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'student-lessons')">حصصي</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'student-homeworks')">واجباتي</a>
@@ -80,7 +78,6 @@
     <div id="teacherPage" class="page">
         <div class="header">واجهة المدرّس</div>
         <div class="nav-tabs-container">
-            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="teacherTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'teacher-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-lessons')">الحصص والواجبات</a>
@@ -93,7 +90,8 @@
             <h3>إدارة الطلاب</h3>
             <button onclick="openCreateAccountModal('teacher', 'student')">إنشاء حسابات للطلاب</button>
             <button onclick="openCreateAccountModal('teacher', 'assistant')">إنشاء حساب للأسيستنت</button>
-            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء كود جديد</button>
+            <input type="number" id="numCodes" placeholder="عدد الأكواد" min="1" />
+            <button onclick="generateMultipleCodes()" style="margin-top: 10px; background: #28a745;">إنشاء أكواد متعددة</button>
             <p id="teacherGeneratedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
             <p>إعطاء حصص للطلاب (سيتم تنفيذه بعدين).</p>
             <p>تزويد عدد المشاهدات للطلاب (سيتم تنفيذه بعدين).</p>
@@ -164,7 +162,6 @@
     <div id="adminPage" class="page">
         <div class="header">واجهة الأدمن</div>
         <div class="nav-tabs-container">
-            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="adminTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'admin-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-lessons')">الحصص والواجبات</a>
@@ -247,7 +244,6 @@
     <div id="assistantPage" class="page">
         <div class="header">واجهة الأسيستنت</div>
         <div class="nav-tabs-container">
-            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="assistantTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'assistant-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'assistant-lessons')">الحصص والواجبات</a>
