@@ -36,7 +36,7 @@
             <h2>تسجيل عبر كود</h2>
             <input id="code" type="text" placeholder="أدخل الكود" />
             <button onclick="signup()">تسجيل</button>
-            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء كود جديد</button>
+            <!-- تم إزالة زر إنشاء كود جديد كما طلبت -->
             <p id="generatedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
             <p class="switch-link">لديك حساب؟ <a href="#" onclick="switchToLogin()">تسجيل الدخول</a></p>
         </div>
@@ -55,13 +55,12 @@
     <div id="studentPage" class="page">
         <div class="header">واجهة الطالب</div>
         <div class="nav-tabs-container">
-            <button class="tab-arrow left" onclick="scrollTabs('left', 'student')">&lt;</button>
+            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="studentTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'student-lessons')">حصصي</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'student-homeworks')">واجباتي</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'student-settings')">الإعدادات</a>
             </div>
-            <button class="tab-arrow right" onclick="scrollTabs('right', 'student')">&gt;</button>
         </div>
         <div id="student-lessons" class="tab-content" style="display: block;">
             <h3>حصصي</h3>
@@ -81,23 +80,20 @@
     <div id="teacherPage" class="page">
         <div class="header">واجهة المدرّس</div>
         <div class="nav-tabs-container">
-            <button class="tab-arrow left" onclick="scrollTabs('left', 'teacher')">&lt;</button>
+            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="teacherTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'teacher-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-lessons')">الحصص والواجبات</a>
-                <a href="#" class="tab-link" onclick="openTab(event, 'teacher-uploaded-lessons')">الحصص المرفوعة</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-settings')">الإعدادات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-manage-accounts')">إدارة الحسابات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'teacher-manage-codes')">إدارة الأكواد</a>
             </div>
-            <button class="tab-arrow right" onclick="scrollTabs('right', 'teacher')">&gt;</button>
         </div>
         <div id="teacher-students" class="tab-content" style="display: block;">
             <h3>إدارة الطلاب</h3>
             <button onclick="openCreateAccountModal('teacher', 'student')">إنشاء حسابات للطلاب</button>
             <button onclick="openCreateAccountModal('teacher', 'assistant')">إنشاء حساب للأسيستنت</button>
-            <input type="number" id="numCodes" placeholder="عدد الأكواد" min="1" />
-            <button onclick="generateMultipleCodes()" style="margin-top: 10px; background: #28a745;">إنشاء أكواد متعددة</button>
+            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء كود جديد</button>
             <p id="teacherGeneratedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
             <p>إعطاء حصص للطلاب (سيتم تنفيذه بعدين).</p>
             <p>تزويد عدد المشاهدات للطلاب (سيتم تنفيذه بعدين).</p>
@@ -109,7 +105,7 @@
             <div>
                 <h4>رفع محتوى (حصة + واجب + امتحان)</h4>
                 <input type="text" id="contentTitle" placeholder="عنوان الحصة" />
-                <input type="file" id="lessonVideo" accept="video/*" />
+                <input type="file" id="lessonVideo" accept="video/mp4" /> <!-- تحديد الصيغة mp4 فقط -->
                 <div id="homeworkQuestions">
                     <h5>أسئلة الواجب</h5>
                     <!-- أسئلة الواجب تُضاف ديناميكيًا -->
@@ -128,17 +124,10 @@
                 </div>
             </div>
         </div>
-        <div id="teacher-uploaded-lessons" class="tab-content">
-            <h3>الحصص المرفوعة</h3>
-            <div id="uploadedLessonsList"></div> <!-- قائمة الحصص المرفوعة -->
-        </div>
         <div id="teacher-settings" class="tab-content">
             <h3>الإعدادات</h3>
-            <p>إعدادات المدرس (مثل زيادة عدد المشاهدات للطلاب لحصة معينة).</p>
+            <p>إعدادات المدرس (مثل زيادة عدد المشاهدات للطلاب).</p>
             <input type="text" id="studentId" placeholder="يوزرنيم أو كود الطالب" />
-            <select id="lessonId" placeholder="اختر الحصة">
-                <!-- الحصص تُضاف ديناميكيًا -->
-            </select>
             <input type="number" id="additionalViews" placeholder="عدد المشاهدات الإضافية" />
             <button onclick="addViewsToStudent()">زيادة مشاهدات</button>
         </div>
@@ -175,21 +164,19 @@
     <div id="adminPage" class="page">
         <div class="header">واجهة الأدمن</div>
         <div class="nav-tabs-container">
-            <button class="tab-arrow left" onclick="scrollTabs('left', 'admin')">&lt;</button>
+            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="adminTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'admin-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-lessons')">الحصص والواجبات</a>
-                <a href="#" class="tab-link" onclick="openTab(event, 'admin-uploaded-lessons')">الحصص المرفوعة</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-settings')">الإعدادات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-manage-accounts')">إدارة الحسابات</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'admin-manage-codes')">إدارة الأكواد</a>
             </div>
-            <button class="tab-arrow right" onclick="scrollTabs('right', 'admin')">&gt;</button>
         </div>
         <div id="admin-students" class="tab-content" style="display: block;">
             <h3>إدارة الطلاب</h3>
             <button onclick="openCreateAccountModal('admin', 'student')">إنشاء حسابات للطلاب</button>
-            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء أكواد للطلاب</button>
+            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء كود جديد</button>
             <p id="adminGeneratedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
             <p>إعطاء حصص للطلاب (سيتم تنفيذه بعدين).</p>
             <p>تزويد عدد المشاهدات للطلاب (سيتم تنفيذه بعدين).</p>
@@ -201,7 +188,7 @@
             <div>
                 <h4>رفع محتوى (حصة + واجب + امتحان)</h4>
                 <input type="text" id="contentTitleAdmin" placeholder="عنوان الحصة" />
-                <input type="file" id="lessonVideoAdmin" accept="video/*" />
+                <input type="file" id="lessonVideoAdmin" accept="video/mp4" /> <!-- تحديد الصيغة mp4 فقط -->
                 <div id="homeworkQuestionsAdmin">
                     <h5>أسئلة الواجب</h5>
                     <!-- أسئلة الواجب تُضاف ديناميكيًا -->
@@ -220,17 +207,10 @@
                 </div>
             </div>
         </div>
-        <div id="admin-uploaded-lessons" class="tab-content">
-            <h3>الحصص المرفوعة</h3>
-            <div id="uploadedLessonsListAdmin"></div>
-        </div>
         <div id="admin-settings" class="tab-content">
             <h3>الإعدادات</h3>
-            <p>إعدادات الأدمن (مثل زيادة عدد المشاهدات للطلاب لحصة معينة).</p>
+            <p>إعدادات الأدمن (مثل زيادة عدد المشاهدات للطلاب).</p>
             <input type="text" id="studentIdAdmin" placeholder="يوزرنيم أو كود الطالب" />
-            <select id="lessonIdAdmin" placeholder="اختر الحصة">
-                <!-- الحصص تُضاف ديناميكيًا -->
-            </select>
             <input type="number" id="additionalViewsAdmin" placeholder="عدد المشاهدات الإضافية" />
             <button onclick="addViewsToStudent('admin')">زيادة مشاهدات</button>
         </div>
@@ -267,19 +247,17 @@
     <div id="assistantPage" class="page">
         <div class="header">واجهة الأسيستنت</div>
         <div class="nav-tabs-container">
-            <button class="tab-arrow left" onclick="scrollTabs('left', 'assistant')">&lt;</button>
+            <!-- تم إزالة الأسهم كما طلبت -->
             <div class="nav-tabs" id="assistantTabs">
                 <a href="#" class="tab-link active" onclick="openTab(event, 'assistant-students')">إدارة الطلاب</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'assistant-lessons')">الحصص والواجبات</a>
-                <a href="#" class="tab-link" onclick="openTab(event, 'assistant-uploaded-lessons')">الحصص المرفوعة</a>
                 <a href="#" class="tab-link" onclick="openTab(event, 'assistant-settings')">الإعدادات</a>
             </div>
-            <button class="tab-arrow right" onclick="scrollTabs('right', 'assistant')">&gt;</button>
         </div>
         <div id="assistant-students" class="tab-content" style="display: block;">
             <h3>إدارة الطلاب</h3>
             <button onclick="openCreateAccountModal('assistant', 'student')">إنشاء حسابات للطلاب</button>
-            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء أكواد للطلاب</button>
+            <button onclick="generateCode()" style="margin-top: 10px; background: #28a745;">إنشاء كود جديد</button>
             <p id="assistantGeneratedCode" style="text-align: center; color: green; margin-top: 10px;"></p>
             <p>إعطاء حصص للطلاب (سيتم تنفيذه بعدين).</p>
             <p>تزويد عدد المشاهدات للطلاب (سيتم تنفيذه بعدين).</p>
@@ -291,7 +269,7 @@
             <div>
                 <h4>رفع محتوى (حصة + واجب + امتحان)</h4>
                 <input type="text" id="contentTitleAssistant" placeholder="عنوان الحصة" />
-                <input type="file" id="lessonVideoAssistant" accept="video/*" />
+                <input type="file" id="lessonVideoAssistant" accept="video/mp4" /> <!-- تحديد الصيغة mp4 فقط -->
                 <div id="homeworkQuestionsAssistant">
                     <h5>أسئلة الواجب</h5>
                     <!-- أسئلة الواجب تُضاف ديناميكيًا -->
@@ -310,17 +288,10 @@
                 </div>
             </div>
         </div>
-        <div id="assistant-uploaded-lessons" class="tab-content">
-            <h3>الحصص المرفوعة</h3>
-            <div id="uploadedLessonsListAssistant"></div>
-        </div>
         <div id="assistant-settings" class="tab-content">
             <h3>الإعدادات</h3>
-            <p>إعدادات الأسيستنت (مثل زيادة عدد المشاهدات للطلاب لحصة معينة).</p>
+            <p>إعدادات الأسيستنت (مثل زيادة عدد المشاهدات للطلاب).</p>
             <input type="text" id="studentIdAssistant" placeholder="يوزرنيم أو كود الطالب" />
-            <select id="lessonIdAssistant" placeholder="اختر الحصة">
-                <!-- الحصص تُضاف ديناميكيًا -->
-            </select>
             <input type="number" id="additionalViewsAssistant" placeholder="عدد المشاهدات الإضافية" />
             <button onclick="addViewsToStudent('assistant')">زيادة مشاهدات</button>
         </div>
